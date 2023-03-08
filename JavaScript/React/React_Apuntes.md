@@ -7,7 +7,9 @@ npx create-react-app my-app  // crea la app
 cd my-app  // acceder a la carpeta de la app
 npm start  // ejecutar la app
 ```
+
 **Nota**: Si se desea crear el proyecto en el directorio donde se esta parado, solo es necesario reemplazar el nombre del proyecto por un punto.
+
 ```
 C:\proyectos\my-app> npx create-react-app .
 ```
@@ -21,7 +23,9 @@ Al correr la app con `npm start` se inicia el servicio en la consola, brindandon
 Nosotros solo trabajaremos con la carpeta `src`. Al finalizar el proyecto y al ejecutar `npm run build` se creará la carpeta `build` el contenido de esta sera el proyecto final que debe subirse al server de producción.
 
 ## Pasos a tener en cuenta antes de desarrolar
+
 Estructura del componente:
+
 - Identificar los elementos que componen nuestro proyecto ej: titulo, targetas, imagenes etc... identificar los patrones que se repiten, esos son los candidatos para un componente en React.
 
 ## Comenzar a desarrollar
@@ -32,7 +36,8 @@ Pasos a seguir:
 - Creamos el archivo `index.js`, que es el archivo principal de interacción de la app.
 - Importamos la libreria `react`.
 
-    _Nota_: A partir de la versión 17 de React no es necesario importar la libreria `react` para proyectos simples, pero si se importa cuando hacemos uso de Hoocks y estados y en otras condiciones.
+  _Nota_: A partir de la versión 17 de React no es necesario importar la libreria `react` para proyectos simples, pero si se importa cuando hacemos uso de Hoocks y estados y en otras condiciones.
+
 - Importamos la libreria `react-dom/client`, para la manipulacion del DOM.
 - Inicializamos una constante `root` que como valor tendra lo que devuelva el método `createRoot` de `ReactDOM` enviandole como argumento `document.getElementById('root')` que es el elemento contenedor de interfaz entre react y el documento HTML.
 
@@ -111,12 +116,15 @@ function MyComponent() {
   )
 }
 ```
+
 ### Reglas sintacticas
+
 - Self closing tag `/>` deben tener un espacio en blanco antes del esta: `<Component />`, `<img />`
 - Punto y coma al finalizar la declaración de una arrow function. Esto es en general no solo para React.
-    ```
-    const myFunction = () => { return 'Hola!'};
-    ```
+  ```
+  const myFunction = () => { return 'Hola!'};
+  ```
+
 ### Nota
 
 La extensión `jsx` se puede usar para los módulos en React, es indistinto usar `js` o `jsx`, react los interpreta de la misma forma, pero es mas prolijo a mi forma de ver y hay varios frameworks que utilizan el `jsx` para trabajar. En mi caso prefiero usarlo.
@@ -623,11 +631,12 @@ Una forma de asegurarnos que en `props` recibimos el tipo de dato adecuado para 
 
   ```
   root.render(
-  <>
-    <Button text="Click me" />
-    <Button text="Pay" />
-    <Button />
-  </>
+    <>
+      <Button text="Click me" />
+      <Button text="Pay" />
+      <Button />
+    </>
+  )
   ```
 
   Salida por consola:
@@ -1047,6 +1056,66 @@ useEffect recibe como argumento una función y opcionalmente separado por una co
     `useEffect(() => {...},[estado1, estado5]);
     ```
 
+### Custom Hooks
+
+Un custom hook es una es una simple función que nos permite reutilizar un hook, en otros componentes aplicando DRY (Don't Repeat Yourself). Esto puede aplicarse a cualquier hook de React.
+
+Sintaxis: Por norma el nombre de la función debe comenzar con `use` ej: `useMyFunction`
+
+Ejemplo de función custom Hook:
+
+```
+function useActive(initialState = false) {
+  const [active, setActive] = useState(initialState);
+
+  const handleToggle = () => {
+    setActive(!active);
+  };
+  const handleTrue = () => {
+    setActive(true);
+  };
+  const handleFalse = () => {
+    setActive(false);
+  };
+
+  return [active, { handleToggle, handleTrue, handleFalse }];
+}
+```
+
+Llamado desde el componente `ShowInfo`:
+
+```
+function ShowInfo() {
+  const [active, { handleToggle }] = useActive(false);
+
+  return (
+    <div>
+      <button onClick={() => handleToggle()}>Show/hide</button>
+      {active && (<h2>"Información que estaba oculta!"</h2>)}
+    </div>
+  );
+}
+```
+llamado desde el Componente App:
+```
+function App() {
+
+  const [active, { handleToggle, handleTrue, handleFalse }] = useActive();
+
+  return (
+    <div className="App">
+      <h1>Custom Hook</h1>
+      <h2>{active.toString()}</h2>
+      <button onClick={handleToggle}>Toggle</button>
+      <button onClick={handleTrue}>True</button>
+      <button onClick={handleFalse}>False</button>
+      <ShowInfo />
+    </div>
+  );
+}
+```
+En este ejemplo cada componente llama a `useActive` y mantiene cada uno su estado independiente del otro, llamando al custom hook y utilizando los métodos que necesitan del mismo.
+
 [Documentación React Hooks](https://reactjs.org/docs/hooks-intro.html)
 
 ## Contexto de React
@@ -1355,22 +1424,28 @@ Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `
 ```
 
 ## Tisp y Trucos
+
 ### Representar html embebido en un string: (OJO Leer nota antes de usar)
+
 Si tienes un string en el cual parte de su contenido tiene código html y deseas representarlo como tal, debes incluir en el tag el atributo `dangerouslySetInnerHTML={{__html: <string>}}`. Esto es un reemplazo del DOM InnerHTML.
+
 ```
 const texto = "Hola <strong>Mundo!</strong>";
 
 <p className="text" dangerouslySetInnerHTML={{__html: texto}}></p>
 ```
+
 Salida por pantalla: Hola **Mundo!**
 
 [Documentación](https://es.reactjs.org/docs/dom-elements.html)
 
 #### Nota:
+
 OJO al piojo, representar directamente código html de un string que puede ser editado por el usuario u ser obtenido de alguna API REST, puede exponer a los usuarios a ataques XSS.
 Por lo cual deben satizarse esos strings antes de usar la opción `dangerouslySetInnerHTML={{__html: <string>}}`. Para ello podemos instalar el paquete `dompurify`.
 
 Instalación de dompurify y uso:
+
 1. `npm install dompurify`
 2. importar: `import DOMPurify from "dompurify";`
 3. Aplicar el texto deseado: `dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(texto)}}`
