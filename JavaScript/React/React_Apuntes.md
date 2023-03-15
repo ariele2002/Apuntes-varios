@@ -272,8 +272,9 @@ root.render(
 
 ## ECMASCRIPT MODULES
 
-Como ya vimos en los _Componentes_ y sus características, estos dividen el código, su lógica y tambén pueden conformar _Componentes_ en archivos individuales, separando la lógica y ser exportados e importados, haciendo que el código sea modular y facil de mantener.<br>
-\_Los nombres de Módulos deben comenzar en Mayúsculas.
+Como ya vimos en los _Componentes_ y sus características, estos dividen el código, su lógica y tambén pueden conformar _Componentes_ en archivos individuales, separando la lógica y ser exportados e importados, haciendo que el código sea modular y facil de mantener.
+
+Los nombres de Módulos deben comenzar en Mayúsculas.
 
 **Nota**: Una buena práctica que los componentes sean creados dentro de una carpeta "components".
 
@@ -371,7 +372,8 @@ root.render(
 
 ### Export Default
 
-Al usar dentro del Módulo `export default` al momento de importar, debe darsele un nombre al módulo importado:<br>
+Al usar dentro del Módulo `export default` al momento de importar, debe darsele un nombre al módulo importado:
+
 Módulo `Product.js`
 
 ```
@@ -400,7 +402,8 @@ root.render(
 
 ### Export Default e Importación de otro componente no default
 
-En este caso debe colocarse una coma segida al nombre del Módulo y entre llaves el nombre del Componente a importar.<br>
+En este caso debe colocarse una coma segida al nombre del Módulo y entre llaves el nombre del Componente a importar.
+
 Módulo `Product.js`
 
 ```
@@ -490,7 +493,8 @@ Salida al Navegador:
 {"xy":15}
 ```
 
-Otro Ejemplo Simple de `props`:<br>
+Otro Ejemplo Simple de `props`:
+
 Módulo `EjProps.jsx`
 
 ```
@@ -767,7 +771,9 @@ export function TaskCard({ ready }) {
 
 ## Tipos de Componentes
 
-En un principio React armaba sus componentes como clases, en el componente se importabla `Component` desde `react` y _exportaba_ una clase extendida a `Component` y dentro de la misma se usaba `render()` para retornar una interfaz.
+### Componente de Clase
+
+En versiones anteriores de React (anteriores 16.8) no podiamos hacer componentes funcionales, sus componentes se hacian mediante clases. En el componente se importabla `Component` desde `react`, _exportaba_ una clase extendida a `Component` y dentro de la misma se usaba `render()` para retornar una interfaz. Antes de se utilizaban componentes de clase para poder manejar los estados, esto fue resuelto con `useState` que veremos mas adelante en _hooks_.
 
 ```
 import { Component } from "react";
@@ -779,9 +785,101 @@ export class Saludar extends Component {
 }
 ```
 
-**NOTA:** Este procedimiento hace el código mas dificil de mantener y mas engorroso, en la actualidad fue reemplazado por la programación funcional que es el mas nuevo y es el mas utilizado actualmente. Pero a nivel de aprendizaje se explica el uso, de momento en React no fue deprecado y se sigue utilizando en algunos lugares.
+**NOTA:** Este procedimiento hace el código mas dificil de mantener y mas engorroso, en la actualidad fue reemplazado por la programación funcional que es el mas nuevo y es el mas utilizado actualmente. Pero a nivel de aprendizaje se explica el uso, de momento en React no fue deprecado y estas son las claves del equipo de React con respecto a los componentes de clase:
+- No hay planes para eliminar las clases de React.
+- No hay prisa para migrar a los Hooks.
+- Pretendemos que Hooks cubran todos los casos de uso existentes para las clases, pero seguiremos soportando los componentes de clase en un futuro previsible.
 
-Antes de se utilizaban componentes de clase para poder manejar los estados, esto fue resuelto con `useState` que veremos mas adelante en _hooks_.
+
+### Componente de Clase Definición y uso
+El Componente de Clase es una clase de ES6 (JavaScript Moderno) que retorna un elemento JSX.
+La _estructura_ del Componente de Clase tiene _métodos_ y _estado_, el método es una función asociada a un componente que puede acceder y usar su estado.
+#### Carácteristicas
+- Debe extender React.Component.
+- Deben tener un método `render()` para retornar un elemento JSX.
+- Pueden recibir `props` si es necesario.
+
+El método `render()` retorna la estructura del componente en JSX. Reemplaza al `return` de los componentes funcionales. Es el único método obligatorio para un componente de clase en React.
+```
+class NombreComponente extends React.Component {
+  render() {
+    return <p>Mi Componente</p>
+  }
+}
+```
+#### This en componentes de clase
+`this` se refiere al componente actual.
+```
+class NombreComponente extends React.Component {
+  render() {
+    return <p>{this.props.texto}</p>
+  }
+}
+```
+#### Constructor
+Es el método utilizado para inicializar el _estado_ de un componente de React. El método se llama automaticamente cuando creamos un componente e inicializa los valores del estado del mismo.
+```
+class NombreComponente extends React.Component {
+  
+  constructor() {
+    super();
+    this.state = {completada: true};
+  }
+  
+  render() {
+    return <p>{this.props.texto}</p>
+  }
+}
+```
+Debe llamar a `super()` para heredar todas las funciones de su componente _padre_ (React.Component).
+
+**props**: Si el componente tiene un método **consturctor** y recibe `props`, deben ser pasados al **constructor** y a **super()**.
+```
+class NombreComponente extends React.Component {
+  
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return <p>{this.props.texto}</p>
+  }
+}
+```
+#### Estado en el Constructor
+El objeto `state` (estado) se inicializa en el constructor. Ese objeto puede tener varias propiedades separadas por coma.
+```
+class NombreComponente extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      completada: true,
+      color: 'azul',
+      prioridad: 1,
+    };
+  }
+  
+  render() {
+    return <p>{this.props.texto}</p>
+  }
+}
+```
+#### Acceder al Estado
+Para acceder al estado se utiliza la siguiente sintaxis: `this.state.propiedad`
+```
+...
+render() {
+  return <p>{this.state.completada}</p>
+}
+```
+#### Actualizar Estado
+Para actualizar una o más propiedades del objeto `state`, se llama a `this.state.setState()` y se pasan como argumento un objeto con las propiedades que se van a actualizar y sus nuevos valores.
+#### Métodos de Ciclo de Vida
+Son métodos especiales de React usados para realizar operaciones con componentes en momentos específicos de su vida en el DOM.
+
+[Documentación](https://es.reactjs.org/docs/state-and-lifecycle.html)
+
 
 ## Event Handlers (Manejador de Eventos, Event Listeners)
 
@@ -839,6 +937,7 @@ Salida por consola
 > Pru
 ...
 ```
+**Nota**: Cuando la función se pasa como un `props` a un Componente, en el evento debe llamarse a una función que lo ejecute `onClick={() => myfunction(<argumento>)}`. ** Revisar esto ultimo, no siempre es asi**.
 
 ### Formularios y Submit
 
@@ -1168,7 +1267,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 ### Compartiendo Propiedades del Contexto
 
-Como es un componente, comparte sus propiedades de igual manera que estos, pasando sus propiedades y métodos como valores en el tag. En este caso un objeto con estos ultimos.
+Como es un componente, comparte sus propiedades de igual manera que estos, pasando sus propiedades y métodos como valores en el tag por medio del atributo **`value={}`**. En este caso un objeto con estos ultimos.
 
 **Nota**: Es una buena practica usar objetos ya que hace mucho más facil de mantener la aplicación al agregar nuevas propiedades al componente del contexto.
 
@@ -1410,7 +1509,7 @@ JSON.parse(localStorage.getItem('task'));
 
 ## If de una sola línea Mas Corto!
 
-Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `{showCompleted ? tarea : tarea}`
+Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `{showCompleted ? tarea1 : tarea2}` o `{showCompleted ? tarea1 : null}` si no debe hacer nada si no se cumple.
 
 ```
 {showCompleted && (
@@ -1452,6 +1551,35 @@ Instalación de dompurify y uso:
 
 [npm dompurify](https://www.npmjs.com/package/dompurify)
 
+### Evaluar una Expresión Matematica de un String
+Para ello debe instalarse el paquete para JavaScript y Nodesjs [mathjs](https://mathjs.org/).
+
+La función `evaluate(<string>)` nos retorna el resultado de la expresión.
+
+Instalación y uso:
+1. `npm install mathjs`
+2. importar la función de la libreria: `import { evaluate } from 'mathjs';`
+3. Ejemplo de uso: `let resultado = evaluate('30 / 3 * 5 + 1')` resultado es 51.
+
+[mathjs Documentación](https://mathjs.org/)
+
+### Evaluar String Vacio y Sacar Espacios en Blanco.
+El método `trim()` nos retorna un nuevo string, al que le remueve los espacios vacios tanto al principio como al final de este. Nos puede servir tanto para evaluar un string vacio, como también remover los espacios vacios en el comienzo y al final de un string.
+```
+let texto = " El texto de Elnesto! ";
+
+if (texto.trim()) { // evalua si el string esta vacio
+  texto = texto.trim() // elimina los espaciós al principio y al final del string.
+}
+
+Consola> 'El texto de Elnesto!'
+```
+
+## Notas CSS
+- `user-select: none` No permite seleccionar el texto, bueno para botones hechos con `<div>`
+- `flex: 1 1` En el flex item hace que cada elemento tenga el mismo ancho dentro del contenedor.
+- `:nth-child(3n + 1)`: Ver en la [documentación](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child) como intercalar color para listas.
+
 ## Recursos
 
 Módulos:
@@ -1460,3 +1588,4 @@ Módulos:
 - Excellent intuitive React UI tools [Material UI](https://mui.com/)
 - Generador de Avatar aleatorio [Robohash](https://robohash.org)
 - Generador de proyectos de React, alternativa a `create-react-app` mas rapida [Vite](https://vitejs.dev/)
+- Generador de ids [uuid](https://www.npmjs.com/package/uuid)
