@@ -1522,7 +1522,7 @@ Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `
 }
 ```
 
-## Tisp y Trucos
+## Tips y Trucos
 
 ### Representar html embebido en un string: (OJO Leer nota antes de usar)
 
@@ -1582,7 +1582,7 @@ Consola> 'El texto de Elnesto!'
 
 ## Recursos
 
-Módulos:
+Módulos y paquetes:
 
 - Módulo de iconos [react-icons](https://react-icons.github.io/react-icons/)
 - Excellent intuitive React UI tools [Material UI](https://mui.com/)
