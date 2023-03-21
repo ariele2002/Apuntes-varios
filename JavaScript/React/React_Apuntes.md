@@ -773,7 +773,7 @@ export function TaskCard({ ready }) {
 
 ### Componente de Clase
 
-En versiones anteriores de React (anteriores 16.8) no podiamos hacer componentes funcionales, sus componentes se hacian mediante clases. En el componente se importabla `Component` desde `react`, _exportaba_ una clase extendida a `Component` y dentro de la misma se usaba `render()` para retornar una interfaz. Antes de se utilizaban componentes de clase para poder manejar los estados, esto fue resuelto con `useState` que veremos mas adelante en _hooks_.
+En versiones anteriores de React (anteriores 16.8) no podiamos hacer componentes funcionales, sus componentes se hacian mediante clases. En el componente se importabla `Component` desde `react`, _exportaba_ una clase extendida a `Component` y dentro de la misma se usaba `render(){}` para retornar una interfaz. Antes de se utilizaban componentes de clase para poder manejar los estados, esto fue resuelto con `useState` que veremos mas adelante en _hooks_.
 
 ```
 import { Component } from "react";
@@ -969,6 +969,8 @@ export function ButtonEJ({ text }) {
 
 En React es muy comun consumir una REST API, ya que en el fron end no se suelen tener datos, estos se solicitan al back end o a una REST API.
 
+### Ejemplo simple:
+
 `FetchApi.jsx`
 
 ```
@@ -988,7 +990,25 @@ export const Posts = () => {
 };
 ```
 
-**Esto es a modo de ejemplo hay que mejorarlo con asincronía (async/await)**
+### Ejemplo con Async/ Await en un useEffect():
+
+```
+const [characters, setCharacters] = useState([]);
+
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const response = await fetch("https://rickandmortyapi.com/api/character");
+      const data = await response.json();
+      setCharacters(data.results);
+    } catch(err) {
+      console.log(err)
+    }
+  }
+  fetchData();
+}, []);
+```
+**Nota**: Ver la sección de manejo de errores, Error Boundary y Suspense.
 
 ## Módulos de Terceros
 
@@ -1216,6 +1236,8 @@ function App() {
 En este ejemplo cada componente llama a `useActive` y mantiene cada uno su estado independiente del otro, llamando al custom hook y utilizando los métodos que necesitan del mismo.
 
 [Documentación React Hooks](https://reactjs.org/docs/hooks-intro.html)
+
+## Manejo de errores y Error Boundary
 
 ## Contexto de React
 
