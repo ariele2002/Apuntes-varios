@@ -43,7 +43,7 @@ Pasos a seguir:
 
 Ejemplo:
 
-```
+```JavaScript
 import React from 'react';
 import ReactDom from 'react-dom/client';
 
@@ -71,7 +71,7 @@ JSX cambia la sintaxis que puede afectar a las palabras reservadas de JavaScript
 - El atributo `for` se escribe `htmlFor` ej: `<label htmlFor="css">CSS</label>`
 - Estilos en linea: El atributo `style` acepta un objeto JavaScript con propiedades `CSS` escritas en camelCase. Ej: en css `background-color` en jsx `backgroundColor`.
 
-  ```
+  ```JavaScript
   const myStyle = {fontFamily: 'sans-serif', backgroundColor: '#333', padding: '5px'}
 
   <div style={ myStyle }>Hola Mundo!</div>
@@ -79,7 +79,7 @@ JSX cambia la sintaxis que puede afectar a las palabras reservadas de JavaScript
 
   Observar en el siguiente ejemplo, que se usan dos pares de llaves `{}` el primero que nos permite escribir JavaScript en la variable y el segundo que conforma el objeto en si.
 
-  ```
+  ```JavaScript
   <div style={{backgroundColor: '#333'}}> Hola Mundo!</div>
   ```
 
@@ -87,7 +87,7 @@ JSX cambia la sintaxis que puede afectar a las palabras reservadas de JavaScript
 
 Al igual que en HTML, los elementos pueden ser _anidados_ en JSX para formar estructuras más complejas. Podemos tener _elementos_ dentro de _componentes_, _componentes_ dentro de _elementos_ y _elementos_ dentro de _elementos_.
 
-```
+```JavaScript
 <div className="Contenedor">
   <Pantalla input={input} />
   <div className="fila">
@@ -101,7 +101,7 @@ Al igual que en HTML, los elementos pueden ser _anidados_ en JSX para formar est
 
 En JSX puede escribirse código JavaScript sin ningún inconveniente antes del `return` que devuelve la interfaz y dentro de esta última se escribe el código dentro de llaves `{}`
 
-```
+```JavaScript
 function MyComponent() {
   const user = {name: "Pepe", age: 23};
   const myFunction = (age) => age + 5;
@@ -121,7 +121,7 @@ function MyComponent() {
 
 - Self closing tag `/>` deben tener un espacio en blanco antes del esta: `<Component />`, `<img />`
 - Punto y coma al finalizar la declaración de una arrow function. Esto es en general no solo para React.
-  ```
+  ```JavaScript
   const myFunction = () => { return 'Hola!'};
   ```
 
@@ -153,7 +153,7 @@ Caracteristicas y sintaxis de los componentes.
 
 De esta forma el componente es _reutilizable_ y puede llamarse las veces que uno desee, en el ejemplo se lo invoca de las tres formas posibles, dando el mismo resultado:
 
-```
+```JavaScript
 function Greetings() {
     return <div>
         <h1>Esto es un componente</h1>
@@ -182,7 +182,7 @@ El DOM (Document Object Model) es una representación en el navegador de todos l
 Como en el ejemplo anterior esta forma de escribir el código, su sintaxis, funciona por que realmente React no usa JavaScript, sino que utiliza el lenguaje `JSX` que es una mezcla de JavaScript y HTML por asi decirlo.<br>
 Para escribir código JavaScript dentro de las interfaces, se hace entre llaves `{}`.
 
-```
+```JavaScript
 function Greetings() {
     const married = true;
     return <h1>{married ? 'Estoy casado' : 'No estoy casado'}</h1>
@@ -199,7 +199,7 @@ root.render(
 
 Si deseamos representar un `booleano` o un `objeto` en la interfaz, esta no devolvera resultado alguno, ya que no interpretara estos valores. Para hacerlo es necesario convertirlos en `string` ejemplo:
 
-```
+```JavaScript
 function Greetings() {
   const user = {
     firstname: "Pepe",
@@ -219,7 +219,7 @@ function Greetings() {
 
 Mostrando los valores del objeto:
 
-```
+```JavaScript
 function Greetings() {
   const user = {
     firstname: "Pepe",
@@ -242,7 +242,7 @@ function Greetings() {
 Fragment se utiliza para **cumplir** con la regla de React, de que toda interfaz debe ir contenida en una etiqueta (tag) cuando enviamos varios elementos en una interfaz, evitando etiquetas o contenedores indeseados.
 Al encerrar los elementos en los tags `<>` y `</>` estos no generaran código HTML alguno.
 
-```
+```JavaScript
 function Greetings() {
   const user = {
     firstname: "Pepe",
@@ -280,7 +280,7 @@ Los nombres de Módulos deben comenzar en Mayúsculas.
 
 Módulo `Sumamos.js`
 
-```
+```JavaScript
 export function Sumamos() {
   function add(x, y) {
     return x + y;
@@ -295,7 +295,7 @@ export function Sumamos() {
 
 Principal `index.js`
 
-```
+```JavaScript
 import React from "react";
 import ReactDom from "react-dom/client";
 
@@ -316,7 +316,7 @@ También se puede usar la sintaxis de funcion flecha en una variable en el módu
 
 Módulo `Sumamos.js`
 
-```
+```JavaScript
 export const Sumamos = () => {
   function add(x, y) {
     return x + y;
@@ -334,9 +334,9 @@ export const Sumamos = () => {
 Al importar separamos por coma dentro de la llave los nombres de los componentes.<br>
 Módulo `Sumamos.js`
 
-```
+```JavaScript
 export function Sumamos() {
-...
+...}
 
 export function UserCard() {
   const user = {
@@ -354,7 +354,7 @@ export function UserCard() {
 
 Principal `index.js`
 
-```
+```JavaScript
 import React from "react";
 import ReactDom from "react-dom/client";
 
@@ -376,7 +376,7 @@ Al usar dentro del Módulo `export default` al momento de importar, debe darsele
 
 Módulo `Product.js`
 
-```
+```JavaScript
 function Product() {
   return <h2>Product</h2>;
 }
@@ -386,7 +386,7 @@ export default Product;
 
 Principal `index.js`
 
-```
+```JavaScript
 ...
 import Product from "./Product";
 
@@ -406,7 +406,7 @@ En este caso debe colocarse una coma segida al nombre del Módulo y entre llaves
 
 Módulo `Product.js`
 
-```
+```JavaScript
 function Product() {
   return <h2>Product</h2>;
 }
@@ -420,7 +420,7 @@ export default Product;
 
 Principal `index.js`
 
-```
+```JavaScript
 ...
 import Product, {Navbar} from "./Product";
 
@@ -445,7 +445,7 @@ _Los props **solo** pueden pasarse de padres a hijos_.
 
 Módulo `EjProps.jsx`
 
-```
+```JavaScript
 export function EjProps(props) {
     console.log(props);
     return <h2>{JSON.stringify(props)}</h2>;
@@ -454,7 +454,7 @@ export function EjProps(props) {
 
 Principal `index.js`
 
-```
+```JavaScript
 ...
 
 import {EjProps} from "./EjProps";
@@ -497,7 +497,7 @@ Otro Ejemplo Simple de `props`:
 
 Módulo `EjProps.jsx`
 
-```
+```JavaScript
 export function EjProps(props) {
     return <h2>{props.title}</h2>;
 }
@@ -505,7 +505,7 @@ export function EjProps(props) {
 
 Principal `index.js`
 
-```
+```JavaScript
 ...
 root.render(
   <>
@@ -519,7 +519,7 @@ root.render(
 
 Salida al Navegador:
 
-```
+```JavaScript
 Texto 1
 Texto 2
 Texto 3
@@ -529,7 +529,7 @@ Texto 3
 
 Props al ser un objeto se le pueden aplicar todas las propiedades y métodos que tienen los mismos. Usando destructurin del ejemplo anterior:
 
-```
+```JavaScript
 // EjProps.jsx
 
 export function EjProps({title}) {
@@ -543,7 +543,7 @@ Para pasar varios parámetros en el destructuring, se separan estos con una _com
 
 `index.js`
 
-```
+```JavaScript
 root.render(
   <>
     <EjProps title = "Hola mundo!" user="Pepe"/>
@@ -556,7 +556,7 @@ root.render(
 
 `EjProps.jsx`
 
-```
+```JavaScript
 export function EjProps({ title, user = "User" }) {
   console.log(title, user);
   return (
@@ -582,7 +582,7 @@ En este ejemplo se muestra como pasar las distintas estructura de datos a `props
 
 `index.js`
 
-```
+```JavaScript
 root.render(
   <>
     <EjProps
@@ -598,7 +598,7 @@ root.render(
 
 `EjProps.jsx`
 
-```
+```JavaScript
 export function EjProps({ name, amount, married, points, address }) {
   return (
     <div>
@@ -624,7 +624,7 @@ Una forma de asegurarnos que en `props` recibimos el tipo de dato adecuado para 
 
   `DefaultProps.jsx`
 
-  ```
+  ```JavaScript
   export function Button({ text='Some text' }) {
    console.log(text);
    return <button>{text}</button>;
@@ -633,7 +633,7 @@ Una forma de asegurarnos que en `props` recibimos el tipo de dato adecuado para 
 
   `index.js`
 
-  ```
+  ```JavaScript
   root.render(
     <>
       <Button text="Click me" />
@@ -653,7 +653,7 @@ Una forma de asegurarnos que en `props` recibimos el tipo de dato adecuado para 
 
 - _PropTypes_: Es una libreria para definir el tipo y propiedades de las variables. Se instala y se invoca los métodos de la libreria. [Documentación](https://www.npmjs.com/package/prop-types)
 
-  ```
+  ```JavaScript
   import PropTypes from "prop-types"; // ES6
   export function Button({ text }) {
   console.log(text);
@@ -685,7 +685,7 @@ También es posible contener las propiedades de estilo en una variable que luego
 
 `Task.jsx`
 
-```
+```JavaScript
 export function TaskCard() {
   const styleContainer = {
     backgroundColor: "#202020",
@@ -713,7 +713,7 @@ Para asignarle al elemento su _clase_ correspondiente normalmente se utiliza `cl
 
 `Task.jsx`
 
-```
+```JavaScript
 import "./task.css";
 
 export function TaskCard() {
@@ -728,7 +728,7 @@ export function TaskCard() {
 
 `task.css`
 
-```
+```CSS
 .container {
     padding: 20px;
     background-color: #202020;
@@ -752,7 +752,7 @@ Al igual que se puede utilizar lógica dentro de las interfaces, también se uti
 
 `Task.jsx`
 
-```
+```JavaScript
 import "./task.css";
 
 export function TaskCard({ ready }) {
@@ -775,7 +775,7 @@ export function TaskCard({ ready }) {
 
 En versiones anteriores de React (anteriores 16.8) no podiamos hacer componentes funcionales, sus componentes se hacian mediante clases. En el componente se importabla `Component` desde `react`, _exportaba_ una clase extendida a `Component` y dentro de la misma se usaba `render(){}` para retornar una interfaz. Antes de se utilizaban componentes de clase para poder manejar los estados, esto fue resuelto con `useState` que veremos mas adelante en _hooks_.
 
-```
+```JavaScript
 import { Component } from "react";
 
 export class Saludar extends Component {
@@ -800,7 +800,7 @@ La _estructura_ del Componente de Clase tiene _métodos_ y _estado_, el método 
 - Pueden recibir `props` si es necesario.
 
 El método `render()` retorna la estructura del componente en JSX. Reemplaza al `return` de los componentes funcionales. Es el único método obligatorio para un componente de clase en React.
-```
+```JavaScript
 class NombreComponente extends React.Component {
   render() {
     return <p>Mi Componente</p>
@@ -809,7 +809,7 @@ class NombreComponente extends React.Component {
 ```
 #### This en componentes de clase
 `this` se refiere al componente actual.
-```
+```JavaScript
 class NombreComponente extends React.Component {
   render() {
     return <p>{this.props.texto}</p>
@@ -818,7 +818,7 @@ class NombreComponente extends React.Component {
 ```
 #### Constructor
 Es el método utilizado para inicializar el _estado_ de un componente de React. El método se llama automaticamente cuando creamos un componente e inicializa los valores del estado del mismo.
-```
+```JavaScript
 class NombreComponente extends React.Component {
   
   constructor() {
@@ -834,7 +834,7 @@ class NombreComponente extends React.Component {
 Debe llamar a `super()` para heredar todas las funciones de su componente _padre_ (React.Component).
 
 **props**: Si el componente tiene un método **consturctor** y recibe `props`, deben ser pasados al **constructor** y a **super()**.
-```
+```JavaScript
 class NombreComponente extends React.Component {
   
   constructor(props) {
@@ -848,7 +848,7 @@ class NombreComponente extends React.Component {
 ```
 #### Estado en el Constructor
 El objeto `state` (estado) se inicializa en el constructor. Ese objeto puede tener varias propiedades separadas por coma.
-```
+```JavaScript
 class NombreComponente extends React.Component {
   
   constructor(props) {
@@ -867,7 +867,7 @@ class NombreComponente extends React.Component {
 ```
 #### Acceder al Estado
 Para acceder al estado se utiliza la siguiente sintaxis: `this.state.propiedad`
-```
+```JavaScript
 ...
 render() {
   return <p>{this.state.completada}</p>
@@ -887,7 +887,7 @@ En React agregar un _event handler (event listener)_ se realiza de esta manera:
 
 `EventHandlers.jsx`
 
-```
+```JavaScript
 export function ButtonEJ({ text }) {
   return (
     <button
@@ -911,7 +911,7 @@ Es una buena practica hacer una función por separado con el nombre handlerEvent
 
 `EventHandlers.jsx`
 
-```
+```JavaScript
 export function ButtonEJ({ text }) {
   const handlerClick = () => {
     console.log("Clicked!");
@@ -945,7 +945,7 @@ En el caso de los formularios (`form`) cuando se hace el `submit` la página se 
 
 `EventHandlers.jsx`
 
-```
+```JavaScript
 export function ButtonEJ({ text }) {
 
   const handlerSubmit = (e) => {
@@ -973,7 +973,7 @@ En React es muy comun consumir una REST API, ya que en el fron end no se suelen 
 
 `FetchApi.jsx`
 
-```
+```JavaScript
 export const Posts = () => {
   return (
     <button
@@ -992,7 +992,7 @@ export const Posts = () => {
 
 ### Ejemplo con Async/ Await en un useEffect():
 
-```
+```JavaScript
 const [characters, setCharacters] = useState([]);
 
 useEffect(() => {
@@ -1016,7 +1016,7 @@ No siempre hay que reinventar la rueda React tiene una gran comunidad Open Sourc
 
 Aca hacemos un ejemplo utilizando un _módulo_ de terceros aplicandolo en el ejemplo anterior. Primero instalamos el _módulo_ según su documentación [Módulo de iconos](https://react-icons.github.io/react-icons/). Luego la importamos y utilizamos para poner un icono en el boton.
 
-```
+```JavaScript
 import {VscGlobe} from "react-icons/vsc"
 
 export const Posts = () => {
@@ -1039,7 +1039,7 @@ export const Posts = () => {
 
 En React es muy común utilizar los métodos de array como `map()`,`sort()`,`find()`,`reduce()`, etc. Es preciso tener en cuenta que cuando se generan listas de elementos en React, estos necesitan una propiedad `key={valor que no se repita}` en cada uno de los elementos padres que contienen al resto de elementos, como se vera en el ejemplo.
 
-```
+```JavaScript
 export function Users() {
   const users = [
     {
@@ -1078,19 +1078,19 @@ Los hooks son tan solo funciones que nos provee React para añadir funcionalidad
 
 En React para cambiar un estado, no se realiza como solemos hacerlo en javascript. Para cambiar un estado y tener una variable que cambie en el transcurso del ciclo de vida de la app, se utiliza el hook `useState` que debe importarse de `react`.
 
-```
+```JavaScript
 import { useState } from "react";
 ```
 
 Para crear un estado debe ejecutarce la función `useState()` y como argumento el valor inicial. Esto retorna un array con la variable y la función que modifica esta ultima. ej: `const [variable, setVariable] = useState(valor_inicial)`. El nombre de la función debe llevar `set` precediendo el nombre de la variable en camelcase.
 
-```
+```JavaScript
 const [counter, setCounter] = useState(0);
 ```
 
 Ejemplo de uso de `useState` en el módulo `Hooks.jsx`
 
-```
+```JavaScript
 import { useState } from "react";
 
 export function Counter() {
@@ -1126,7 +1126,7 @@ export function Counter() {
 
 Ejemplo con input:
 
-```
+```JavaScript
 import { useState } from "react";
 
 export function Message() {
@@ -1163,16 +1163,16 @@ useEffect recibe como argumento una función y opcionalmente separado por una co
 - ¿Cuando se ejecuta?: Una vez que la app _se ejecuta por primera vez_ y
   _cada vez que se modifica un estado_, esto va a depender de como se declare la _dependencia_.
   - Se ejecuta **al iniciar** la app y cada vez que se **modifica** un estado:
-    ```
-    `useEffect(() => {...});
+    ```JavaScript
+    useEffect(() => {...});
     ```
   - Se ejecuta **solo al iniciar** la app, observese que la dependencia se declara **vacia**.
-    ```
+    ```JavaScript
     `useEffect(() => {...}, []);
     ```
   - Se ejecuta al **iniciar** la app y solo cuando el/los **estado/s declarado/s** en la dependencia se modifica/n.
-    ```
-    `useEffect(() => {...},[estado1, estado5]);
+    ```JavaScript
+    useEffect(() => {...},[estado1, estado5]);
     ```
 
 ### Custom Hooks
@@ -1183,7 +1183,7 @@ Sintaxis: Por norma el nombre de la función debe comenzar con `use` ej: `useMyF
 
 Ejemplo de función custom Hook:
 
-```
+```JavaScript
 function useActive(initialState = false) {
   const [active, setActive] = useState(initialState);
 
@@ -1203,7 +1203,7 @@ function useActive(initialState = false) {
 
 Llamado desde el componente `ShowInfo`:
 
-```
+```JavaScript
 function ShowInfo() {
   const [active, { handleToggle }] = useActive(false);
 
@@ -1216,7 +1216,7 @@ function ShowInfo() {
 }
 ```
 llamado desde el Componente App:
-```
+```JavaScript
 function App() {
 
   const [active, { handleToggle, handleTrue, handleFalse }] = useActive();
@@ -1238,10 +1238,17 @@ En este ejemplo cada componente llama a `useActive` y mantiene cada uno su estad
 [Documentación React Hooks](https://reactjs.org/docs/hooks-intro.html)
 
 ## Manejo de errores y Error Boundary
+... completar info...
 
 ## Contexto de React
 
 Es la mejor forma de poder compartir el **estado** y **métodos** con el resto de los componentes. El _contexto_, es un _componente_ que engloba al resto de los elementos de la app, los cuales pueden acceder a los valores del contexto directamente, sin tener que pasarlo de componente a componente.
+
+### **Antes de usar Context**
+
+Context se usa principalmente cuando algunos datos tienen que ser accesibles por muchos componentes en diferentes niveles de anidamiento. Aplícalo con moderación porque hace que la reutilización de componentes sea más difícil.
+
+Si solo deseas evitar pasar algunos props a través de muchos niveles, la [composición de componentes](https://es.reactjs.org/docs/components-and-props.html) suele ser una solución más simple que Context.
 
 ### Crear el Contexto
 
@@ -1249,20 +1256,20 @@ Siguiendo la buenas practicas, creamos una carpeta "context" y dentro creamos el
 
 **createContext** es la libreria de React que debemos importar para crear el contexto.
 
-```
+```JavaScript
 import { createContext, useState, useEffect } from "react";
 import { tasks as data } from "../data/tasks";
 ```
 
 Asignamos a una variable con el nombre de nuestro módulo el retorno de la función **createContext()** y la exportamos, esta contendra el nombre de nuestro contexto y almacenara los datos de la misma.
 
-```
+```JavaScript
 export const TaskContext = createContext();
 ```
 
 Creamos una función que va a _englobar_ el resto de los elementos de la app. Este sera nuestro **ContextProvider** y se exporta. Siguiendo nuestro ejemplo la nombramos `TaskContextProvider`. Esta va a recibir como argumentos en `props` los elementos de la app que representamos con `props.children` y retornaremos en el tag `<TaskContext.Provider>`
 
-```
+```JavaScript
 export function TaskContextProvider(props) {
 
   return (
@@ -1275,7 +1282,7 @@ export function TaskContextProvider(props) {
 
 El contexto se representa en `main.jsx` importando `TaskContextProvider` del módulo `TaskContext` y poniendo como hijo del tag `<TaskContextProvider>` a `<App/>` en el render de "root". De esta forma queda listo el contexto para compartir atributos y métodos con el resto de los componentes.
 
-```
+```JavaScript
 import {TaskContextProvider} from './context/TaskContext'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -1295,7 +1302,7 @@ Como es un componente, comparte sus propiedades de igual manera que estos, pasan
 
 `TaskContext.jsx`
 
-```
+```JavaScript
 import { createContext, useState, useEffect } from "react";
 
 import { tasks as data } from "../data/tasks";
@@ -1332,19 +1339,19 @@ export function TaskContextProvider(props) {
 
 Para usar las propiedades del contexto en un módulo, tenemos que importar desde `react` el método `useContext`. En este caso para nuestro ejemplo usamos el módulo `TaskForm.jsx`.
 
-```
+```JavaScript
 import { useState, useContext } from "react";
 ```
 
 Luego importamos al módulo nuestra variable `TaskContext` a la que fue asignada el retorno de `createContext()` en el módulo `TaskContext.jsx`.
 
-```
+```JavaScript
 import { TaskContext } from "../context/TaskContext";
 ```
 
 Ya teniendo disponible el `useContext` y `TaskContext` procedemos a utilizar solo las propiedades que necesite el módulo usando destructuring del retorno de `useContext(<contexto>)`, para asignarlo a una variable dentro de nuestra función `TaskForm` en el módulo.
 
-```
+```JavaScript
 const { createTask } = useContext(TaskContext);
 ```
 
@@ -1352,7 +1359,7 @@ De esta manera ya podemos utilizar el método del contexto `createTask` en nuest
 
 `TaskForm.jsx`
 
-```
+```JavaScript
 function TaskForm() {...
 
   const handleSubmit = (e) => {
@@ -1361,6 +1368,14 @@ function TaskForm() {...
   };
 ...}
 ```
+**Advertencias**
+
+- La llamada de `useContext()` en un componente no es afectada por los proveedores devueltos desde el mismo componente. El `<Context.Provider>` correspondiente necesita estar arriba del componente que hace la llamada de `useContext()`.
+- React **rerenderiza automáticamente** todos los hijos que usen un contexto particular empezando desde el proveedor que recibe un `value` diferente. Los valores anteriores y los siguientes son comparados con `Object.is`. Saltarse el rerenderizado con `memo` no evita que los hijos reciban valores de contexto frescos de arriba.
+- Si tu sistema de compilación produce módulos duplicados en la salida (lo cual puede pasar si usas enlaces simbólicos), esto puede romper el contexto. Pasar algo a través del contexto solo funciona si `SomeContext` que usas para proporcionar el contexto y `SomeContext` que usas para leerlo son exactamente el mismo objeto, como está determinado por la comparación `===`.
+
+## React Route
+
 
 ## Vite
 
@@ -1400,7 +1415,7 @@ El primer comando instala `tailwindcss`, `postcss` y `autoprefixer`, el segundo 
 
 Luego modificamos `tailwind.config.cjs` según el manual, solo las lineas de código indicadas.
 
-```
+```json
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -1409,7 +1424,7 @@ Luego modificamos `tailwind.config.cjs` según el manual, solo las lineas de có
 
 Luego copiamos en `index.css` las siguientes linieas de código.
 
-```
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1431,7 +1446,7 @@ Documentación [Boostrap](https://getbootstrap.com/)
 
 1. Instalar boostrap `npm i bootstrap@<version>`
 2. Importar en `index.js` la hoja de estilos que vamos a usar:
-   ```
+   ```JavaScript
    import "bootstrap/dist/css/bootstrap.min.css"
    ```
 
@@ -1441,7 +1456,7 @@ Pasos a seguir:
 
 1. Instalar paquete gh-pages `npm install gh-pages --save-dev`
 2. En `package.json` se habrá instalado el nuevo paquete y debemos agregar en scripts la siguiente linea: `"deploy": "gh-pages -d dist"`
-   ```
+   ```json
    "scripts": {
      "dev": "vite",
     "build": "vite build",
@@ -1452,7 +1467,7 @@ Pasos a seguir:
    [gh-pages Documentación](https://www.npmjs.com/package/gh-pages)
 3. Entramos a la pagina de Vite que tiene una opción para deploy de paginas estaticas en GitHub Pages. [Vite deploy en GitHub Pages Documentación](https://vitejs.dev/guide/static-deploy.html#github-pages)
 4. Establecemos la propiedad `base` en `vite.config.cjs` y entre ` '//'` el nombre del repositorio.
-   ```
+   ```JavaScript
    export default defineConfig({
      plugins: [react()],
      base: '/react-task-example/',
@@ -1481,15 +1496,17 @@ Pasos a seguir:
 5. Usar el comando que muestra GitHub para idicar el repositorio remoto `git remote add origin https://github.com/ariele2002/react-localstorage-tasks-test.git`
 6. Usa el comando que indica GitHub para subir el repositorio, _ojo, cambiar en el comando al branch que usa nuestro proyecto (master o main)_. `git push -u origin main`.
 7. agregamos en `package.json` `homepage:` para indicarle la raiz de nuesto poyecto, ahi declaramos nuestra homepage y el repositorio:
-   ```
+   ```json
+   {...
      "name": "react-taskapp-localstorage",
      "version": "0.1.0",
      "private": true,
      "homepage": "https://ariele2002.github.io/react-localstorage-tasks-test",
+    ...}
    ```
 8. Instalamos el paquete [gh-pages](https://www.npmjs.com/package/gh-pages) : `npm i gh-pages`
 9. Crear dentro de `package.json` el script `"deploy": "gh-pages -d <distribución>`:
-   ```
+   ```json
    "scripts": {
      "start": "react-scripts start",
      "build": "react-scripts build",
@@ -1509,7 +1526,7 @@ Pasos a seguir:
 
 Podemos guardar datos por medio del `localStorage`, este guarda los datos en el navegador con el formato, `clave`/`valor` para crear un item dentro del local storage utilizamos la sintaxis `localStorage.setItem(<clave>, <valor>)`.
 
-```
+```JavaScript
 localStorage.setItem('edad', 30);
 ```
 
@@ -1517,7 +1534,7 @@ localStorage.setItem('edad', 30);
 
 `localStorage` cuando se trata de arrys u objetos deben tratarse de forma diferente, pasandolos como un string, para esto usamos `JSON.stringify()`.
 
-```
+```JavaScript
 const taskItems = [{name: 'tarea uno'}, {name: 'tarea dos'}, {name: 'tarea tres'}];
 
 localStorage.setItem('task', JSON.stringify(taskItems));
@@ -1525,7 +1542,7 @@ localStorage.setItem('task', JSON.stringify(taskItems));
 
 Y para recuperar los datos del storage los parseamos con `JSON.parce()`.
 
-```
+```JavaScript
 JSON.parse(localStorage.getItem('task'));
 ```
 
@@ -1533,7 +1550,7 @@ JSON.parse(localStorage.getItem('task'));
 
 Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `{showCompleted ? tarea1 : tarea2}` o `{showCompleted ? tarea1 : null}` si no debe hacer nada si no se cumple.
 
-```
+```JavaScript
 {showCompleted && (
     <TaskTable
       tasks={taskItems}
@@ -1550,7 +1567,7 @@ Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `
 
 Si tienes un string en el cual parte de su contenido tiene código html y deseas representarlo como tal, debes incluir en el tag el atributo `dangerouslySetInnerHTML={{__html: <string>}}`. Esto es un reemplazo del DOM InnerHTML.
 
-```
+```JavaScript
 const texto = "Hola <strong>Mundo!</strong>";
 
 <p className="text" dangerouslySetInnerHTML={{__html: texto}}></p>
@@ -1562,14 +1579,20 @@ Salida por pantalla: Hola **Mundo!**
 
 #### Nota:
 
-OJO al piojo, representar directamente código html de un string que puede ser editado por el usuario u ser obtenido de alguna API REST, puede exponer a los usuarios a ataques XSS.
+**OJO al piojo**, representar directamente código html de un string que puede ser editado por el usuario u ser obtenido de alguna API REST, puede exponer a los usuarios a ataques XSS.
 Por lo cual deben satizarse esos strings antes de usar la opción `dangerouslySetInnerHTML={{__html: <string>}}`. Para ello podemos instalar el paquete `dompurify`.
 
 Instalación de dompurify y uso:
 
 1. `npm install dompurify`
-2. importar: `import DOMPurify from "dompurify";`
-3. Aplicar el texto deseado: `dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(texto)}}`
+2. importar: 
+```JavaScript
+import DOMPurify from "dompurify";
+```
+3. Aplicar el texto deseado: 
+```JavaScript 
+dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(texto)}}
+```
 
 [npm dompurify](https://www.npmjs.com/package/dompurify)
 
@@ -1580,14 +1603,21 @@ La función `evaluate(<string>)` nos retorna el resultado de la expresión.
 
 Instalación y uso:
 1. `npm install mathjs`
-2. importar la función de la libreria: `import { evaluate } from 'mathjs';`
-3. Ejemplo de uso: `let resultado = evaluate('30 / 3 * 5 + 1')` resultado es 51.
+2. importar la función de la libreria: 
+```JavaScript 
+import { evaluate } from 'mathjs';
+```
+3. Ejemplo de uso: 
+```JavaScript
+let resultado = evaluate('30 / 3 * 5 + 1')
+```
+resultado es 51.
 
 [mathjs Documentación](https://mathjs.org/)
 
 ### Evaluar String Vacio y Sacar Espacios en Blanco.
 El método `trim()` nos retorna un nuevo string, al que le remueve los espacios vacios tanto al principio como al final de este. Nos puede servir tanto para evaluar un string vacio, como también remover los espacios vacios en el comienzo y al final de un string.
-```
+```JavaScript
 let texto = " El texto de Elnesto! ";
 
 if (texto.trim()) { // evalua si el string esta vacio
