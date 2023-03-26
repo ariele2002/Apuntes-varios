@@ -1237,8 +1237,56 @@ En este ejemplo cada componente llama a `useActive` y mantiene cada uno su estad
 
 [Documentación React Hooks](https://reactjs.org/docs/hooks-intro.html)
 
-## Manejo de errores y Error Boundary
-... completar info...
+## Manejo de errores con Error Boundary
+
+En React, un error boundary es un componente que se utiliza para manejar errores que ocurren durante la renderización o el ciclo de vida de otros componentes secundarios. Los errores que ocurren en un componente hijo normalmente propagan hacia arriba en la jerarquía de componentes hasta que son capturados por un error boundary. Una vez capturados, el error boundary puede renderizar una vista de error en lugar del componente secundario que falló.
+
+Para utilizar un error boundary en React, se puede crear un componente que extienda la clase `React.Component` y definir los métodos `componentDidCatch(error, info)` y `render()`. El método `componentDidCatch` se invoca cuando un error es lanzado por un componente hijo y proporciona información sobre el error y su ubicación en la jerarquía de componentes. El método `render` debe retornar un elemento React que muestre una vista de error adecuada.
+
+Por ejemplo, se podría crear un error boundary como sigue:
+```JavaScript
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+    console.error(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Ha ocurrido un error.</h1>;
+    }
+    return this.props.children;
+  }
+}
+```
+Este componente se puede utilizar para envolver otros componentes y capturar errores en su descendencia. Por ejemplo, se podría utilizar así:
+```JavaScript
+<ErrorBoundary>
+  <MiComponente />
+</ErrorBoundary>
+```
+Si `MiComponente` lanza un error, el error será capturado por el error boundary y se mostrará la vista de error definida en `render`.
+
+### Nota:
+Aunque los error boundaries pueden capturar la mayoría de los errores que ocurren en sus componentes secundarios, hay ciertos tipos de errores que no pueden ser capturados por ellos. Algunos de estos errores son:
+
+- Errores en el manejo de eventos: si se produce un error en un manejador de eventos como `onClick`, `onKeyDown`, etc., este no será capturado por un error boundary.
+
+- Errores en los componentes que se montan fuera del árbol de React: si se monta un componente fuera del árbol de React (por ejemplo, mediante el uso de `ReactDOM.createPortal`), los errores que ocurren en ese componente no se propagarán hacia arriba en la jerarquía de componentes y no podrán ser capturados por un error boundary.
+
+- Errores en los componentes que se montan durante la fase de inicialización: si un componente falla durante la fase de inicialización, antes de que se monte en el DOM, el error no se propagará hacia arriba en la jerarquía de componentes y no podrá ser capturado por un error boundary.
+
+- Errores en los componentes que utilizan `setTimeout` o `setInterval`: si un componente utiliza `setTimeout` o `setInterval` para programar una función, cualquier error que se produzca en esa función no se propagará hacia arriba en la jerarquía de componentes y no podrá ser capturado por un error boundary.
+
+En general, los error boundaries son una herramienta muy útil para manejar errores en la jerarquía de componentes de React, pero es importante recordar que no pueden capturar todos los errores.
+
+Es importante tener en cuenta que los error boundaries solo capturan errores en la descendencia del componente que los contiene, por lo que es posible que se necesiten varios error boundaries en la jerarquía de componentes para cubrir todo el árbol.
+_Es recomendable solo colorar Error Boundary para los Componentes que podrian generar conflicto y no en todo el arbol en Componentes que hacen un renderizado simple._
 
 ## Contexto de React
 
