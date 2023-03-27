@@ -1272,6 +1272,49 @@ Este componente se puede utilizar para envolver otros componentes y capturar err
 ```
 Si `MiComponente` lanza un error, el error será capturado por el error boundary y se mostrará la vista de error definida en `render`.
 
+Otro ejemplo de Error Boundary con dos métodos de captura de error:
+```JavaScript
+import { Component } from "react";
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tieneError: false,
+      mensajeError: "",
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Método 1
+    return { tieneError: true, mensajeError: error.message };
+  }
+
+  componentDidCatch(error) {
+    // Método 2
+    // ambos sirven por igual
+    // return { tieneError: true, mensajeError: error.message };
+    console.log("Component did catch: ", error.message);
+  }
+
+  render() {
+    if (this.state.tieneError) {
+      // UI de Emergencia
+      return (
+        <div>
+          <h2>Hubo un Error:</h2>
+          <p>{this.state.mensajeError}</p>
+          <button onClick={() => (window.location.href = "/")}>
+            Recargar la página{" "}
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+```
+
 ### Nota:
 Aunque los error boundaries pueden capturar la mayoría de los errores que ocurren en sus componentes secundarios, hay ciertos tipos de errores que no pueden ser capturados por ellos. Algunos de estos errores son:
 
@@ -1422,7 +1465,84 @@ function TaskForm() {...
 - React **rerenderiza automáticamente** todos los hijos que usen un contexto particular empezando desde el proveedor que recibe un `value` diferente. Los valores anteriores y los siguientes son comparados con `Object.is`. Saltarse el rerenderizado con `memo` no evita que los hijos reciban valores de contexto frescos de arriba.
 - Si tu sistema de compilación produce módulos duplicados en la salida (lo cual puede pasar si usas enlaces simbólicos), esto puede romper el contexto. Pasar algo a través del contexto solo funciona si `SomeContext` que usas para proporcionar el contexto y `SomeContext` que usas para leerlo son exactamente el mismo objeto, como está determinado por la comparación `===`.
 
-## React Route
+## React Route V6
+Para utilizar React Router v6 es necesario instalar `react-router-dom` como una dependencia adicional de `reac-router`. `react-router-dom` es un paquete que proporciona enlaces (`<Link>`) y otras utilidades para trabajar con React Router en aplicaciones web.
+
+Para instalar tanto `react-router` como `react-router-dom` en tu proyecto, puedes ejecutar el siguiente comando:
+```
+npm install react-router react-router-dom
+```
+Una vez que React Router v6 esté instalado, puedes comenzar a usarlo en tu proyecto. Para ello, primero importa los componentes necesarios:
+```JavaScript
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+```
+En este ejemplo, estamos importando los componentes `BrowserRouter`, `Routes` y `Route`. El componente `BrowserRouter` es necesario para crear un objeto de enrutamiento que funcione en una aplicación React. `Routes` es el componente que contiene las rutas definidas para la aplicación y `Route` es el componente que define una ruta específica.
+
+Luego, envuelve tu aplicación en el componente `BrowserRouter` y define tus rutas utilizando el componente Routes. Por ejemplo:
+
+`App.jsx`
+```JavaScript
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+
+import "./App.css";
+import Home from "./components/Home";
+import Characters from "./components/Characters";
+import Games from "./components/Games";
+import Credits from "./components/Credits";
+import NotFound from "./components/NotFound";
+
+function App() {
+  return (
+    <BrowserRouter className="App">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/characters" element={<Characters />} />
+        <Route path="/games" element={<Games />} />
+        <Route path="/credits" element={<Credits />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+Luego podemos usar `<Link>` para crear enlaces que actualicen la URL sin tener que recargar la página completa:
+
+`Header.jsx`
+```JavaScript
+import { Link } from 'react-router-dom';
+import "../styles/Header.css";
+import logo from "../img/react.svg";
+
+function Header() {
+  return (
+    <header className="header">
+      <img src={logo} alt="Rick and Morty Logo" />
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/characters">Character</Link>
+          </li>
+          <li>
+            <Link to="/games">Games</Link>
+          </li>
+          <li>
+            <Link to="/credits">Credits</Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+export default Header;
+```
+
 
 
 ## Vite
@@ -1611,7 +1731,7 @@ Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `
 
 ## Tips y Trucos
 
-### Representar html embebido en un string: (OJO Leer nota antes de usar)
+### Representar html embebido en un string: (OJO Leer Advertencia antes de usar)
 
 Si tienes un string en el cual parte de su contenido tiene código html y deseas representarlo como tal, debes incluir en el tag el atributo `dangerouslySetInnerHTML={{__html: <string>}}`. Esto es un reemplazo del DOM InnerHTML.
 
@@ -1625,7 +1745,7 @@ Salida por pantalla: Hola **Mundo!**
 
 [Documentación](https://es.reactjs.org/docs/dom-elements.html)
 
-#### Nota:
+#### Advertencia:
 
 **OJO al piojo**, representar directamente código html de un string que puede ser editado por el usuario u ser obtenido de alguna API REST, puede exponer a los usuarios a ataques XSS.
 Por lo cual deben satizarse esos strings antes de usar la opción `dangerouslySetInnerHTML={{__html: <string>}}`. Para ello podemos instalar el paquete `dompurify`.
