@@ -786,20 +786,24 @@ export class Saludar extends Component {
 ```
 
 **NOTA:** Este procedimiento hace el código mas dificil de mantener y mas engorroso, en la actualidad fue reemplazado por la programación funcional que es el mas nuevo y es el mas utilizado actualmente. Pero a nivel de aprendizaje se explica el uso, de momento en React no fue deprecado y estas son las claves del equipo de React con respecto a los componentes de clase:
+
 - No hay planes para eliminar las clases de React.
 - No hay prisa para migrar a los Hooks.
 - Pretendemos que Hooks cubran todos los casos de uso existentes para las clases, pero seguiremos soportando los componentes de clase en un futuro previsible.
 
-
 ### Componente de Clase Definición y uso
+
 El Componente de Clase es una clase de ES6 (JavaScript Moderno) que retorna un elemento JSX.
 La _estructura_ del Componente de Clase tiene _métodos_ y _estado_, el método es una función asociada a un componente que puede acceder y usar su estado.
+
 #### Carácteristicas
+
 - Debe extender React.Component.
 - Deben tener un método `render()` para retornar un elemento JSX.
 - Pueden recibir `props` si es necesario.
 
 El método `render()` retorna la estructura del componente en JSX. Reemplaza al `return` de los componentes funcionales. Es el único método obligatorio para un componente de clase en React.
+
 ```JavaScript
 class NombreComponente extends React.Component {
   render() {
@@ -807,8 +811,11 @@ class NombreComponente extends React.Component {
   }
 }
 ```
+
 #### This en componentes de clase
+
 `this` se refiere al componente actual.
+
 ```JavaScript
 class NombreComponente extends React.Component {
   render() {
@@ -816,41 +823,49 @@ class NombreComponente extends React.Component {
   }
 }
 ```
+
 #### Constructor
+
 Es el método utilizado para inicializar el _estado_ de un componente de React. El método se llama automaticamente cuando creamos un componente e inicializa los valores del estado del mismo.
+
 ```JavaScript
 class NombreComponente extends React.Component {
-  
+
   constructor() {
     super();
     this.state = {completada: true};
   }
-  
+
   render() {
     return <p>{this.props.texto}</p>
   }
 }
 ```
+
 Debe llamar a `super()` para heredar todas las funciones de su componente _padre_ (React.Component).
 
 **props**: Si el componente tiene un método **consturctor** y recibe `props`, deben ser pasados al **constructor** y a **super()**.
+
 ```JavaScript
 class NombreComponente extends React.Component {
-  
+
   constructor(props) {
     super(props);
   }
-  
+
   render() {
     return <p>{this.props.texto}</p>
   }
 }
 ```
+
 #### Estado en el Constructor
+
 El objeto `state` (estado) se inicializa en el constructor. Ese objeto puede tener varias propiedades separadas por coma.
+
 ```JavaScript
 class NombreComponente extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -859,27 +874,33 @@ class NombreComponente extends React.Component {
       prioridad: 1,
     };
   }
-  
+
   render() {
     return <p>{this.props.texto}</p>
   }
 }
 ```
+
 #### Acceder al Estado
+
 Para acceder al estado se utiliza la siguiente sintaxis: `this.state.propiedad`
+
 ```JavaScript
 ...
 render() {
   return <p>{this.state.completada}</p>
 }
 ```
+
 #### Actualizar Estado
+
 Para actualizar una o más propiedades del objeto `state`, se llama a `this.state.setState()` y se pasan como argumento un objeto con las propiedades que se van a actualizar y sus nuevos valores.
+
 #### Métodos de Ciclo de Vida
+
 Son métodos especiales de React usados para realizar operaciones con componentes en momentos específicos de su vida en el DOM.
 
 [Documentación](https://es.reactjs.org/docs/state-and-lifecycle.html)
-
 
 ## Event Handlers (Manejador de Eventos, Event Listeners)
 
@@ -937,6 +958,7 @@ Salida por consola
 > Pru
 ...
 ```
+
 **Nota**: Cuando la función se pasa como un `props` a un Componente, en el evento debe llamarse a una función que lo ejecute `onClick={() => myfunction(<argumento>)}`. ** Revisar esto ultimo, no siempre es asi**.
 
 ### Formularios y Submit
@@ -1008,6 +1030,7 @@ useEffect(() => {
   fetchData();
 }, []);
 ```
+
 **Nota**: Ver la sección de manejo de errores, Error Boundary y Suspense.
 
 ## Módulos de Terceros
@@ -1215,7 +1238,9 @@ function ShowInfo() {
   );
 }
 ```
+
 llamado desde el Componente App:
+
 ```JavaScript
 function App() {
 
@@ -1233,6 +1258,7 @@ function App() {
   );
 }
 ```
+
 En este ejemplo cada componente llama a `useActive` y mantiene cada uno su estado independiente del otro, llamando al custom hook y utilizando los métodos que necesitan del mismo.
 
 [Documentación React Hooks](https://reactjs.org/docs/hooks-intro.html)
@@ -1244,6 +1270,7 @@ En React, un error boundary es un componente que se utiliza para manejar errores
 Para utilizar un error boundary en React, se puede crear un componente que extienda la clase `React.Component` y definir los métodos `componentDidCatch(error, info)` y `render()`. El método `componentDidCatch` se invoca cuando un error es lanzado por un componente hijo y proporciona información sobre el error y su ubicación en la jerarquía de componentes. El método `render` debe retornar un elemento React que muestre una vista de error adecuada.
 
 Por ejemplo, se podría crear un error boundary como sigue:
+
 ```JavaScript
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -1264,15 +1291,19 @@ class ErrorBoundary extends React.Component {
   }
 }
 ```
+
 Este componente se puede utilizar para envolver otros componentes y capturar errores en su descendencia. Por ejemplo, se podría utilizar así:
+
 ```JavaScript
 <ErrorBoundary>
   <MiComponente />
 </ErrorBoundary>
 ```
+
 Si `MiComponente` lanza un error, el error será capturado por el error boundary y se mostrará la vista de error definida en `render`.
 
 Otro ejemplo de Error Boundary con dos métodos de captura de error:
+
 ```JavaScript
 import { Component } from "react";
 
@@ -1316,6 +1347,7 @@ class ErrorBoundary extends Component {
 ```
 
 ### Nota:
+
 Aunque los error boundaries pueden capturar la mayoría de los errores que ocurren en sus componentes secundarios, hay ciertos tipos de errores que no pueden ser capturados por ellos. Algunos de estos errores son:
 
 - Errores en el manejo de eventos: si se produce un error en un manejador de eventos como `onClick`, `onKeyDown`, etc., este no será capturado por un error boundary.
@@ -1459,6 +1491,7 @@ function TaskForm() {...
   };
 ...}
 ```
+
 **Advertencias**
 
 - La llamada de `useContext()` en un componente no es afectada por los proveedores devueltos desde el mismo componente. El `<Context.Provider>` correspondiente necesita estar arriba del componente que hace la llamada de `useContext()`.
@@ -1466,35 +1499,45 @@ function TaskForm() {...
 - Si tu sistema de compilación produce módulos duplicados en la salida (lo cual puede pasar si usas enlaces simbólicos), esto puede romper el contexto. Pasar algo a través del contexto solo funciona si `SomeContext` que usas para proporcionar el contexto y `SomeContext` que usas para leerlo son exactamente el mismo objeto, como está determinado por la comparación `===`.
 
 ## React Route V6
+
 Para utilizar React Router v6 es necesario instalar `react-router-dom` como una dependencia adicional de `reac-router`. `react-router-dom` es un paquete que proporciona enlaces (`<Link>`) y otras utilidades para trabajar con React Router en aplicaciones web.
+**Nota:** No se en que situaciones se instala `react-router` hasta ahora funciona solo con `react-router-dom`.
 
 Para instalar tanto `react-router` como `react-router-dom` en tu proyecto, puedes ejecutar el siguiente comando:
+
 ```
 npm install react-router react-router-dom
 ```
+
 Una vez que React Router v6 esté instalado, puedes comenzar a usarlo en tu proyecto. Para ello, primero importa los componentes necesarios:
+
 ```JavaScript
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 ```
+
 En este ejemplo, estamos importando los componentes `BrowserRouter`, `Routes` y `Route`. El componente `BrowserRouter` es necesario para crear un objeto de enrutamiento que funcione en una aplicación React. `Routes` es el componente que contiene las rutas definidas para la aplicación y `Route` es el componente que define una ruta específica.
 
 Luego, envuelve tu aplicación en el componente `BrowserRouter` y define tus rutas utilizando el componente Routes. Por ejemplo:
 
 `App.jsx`
+
 ```JavaScript
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 import "./App.css";
-import Home from "./components/Home";
-import Characters from "./components/Characters";
-import Games from "./components/Games";
-import Credits from "./components/Credits";
-import NotFound from "./components/NotFound";
+import Home from "./pages/Home";
+import Characters from "./pages/Characters";
+import Games from "./pages/Games";
+import Credits from "./pages/Credits";
+import NotFound from "./pages/NotFound";
+import Header from "./components/Header";
 
 function App() {
   return (
     <BrowserRouter className="App">
+
       <Header />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/characters" element={<Characters />} />
@@ -1508,11 +1551,57 @@ function App() {
 
 export default App;
 ```
-Luego podemos usar `<Link>` para crear enlaces que actualicen la URL sin tener que recargar la página completa:
+
+_Nota:_ Como veran en el código importo los componentes de `./pages` esto es asi por que son páginas completas formadas por componentes y `Header` es importado de `./components` por que es un componente reutilizable. Esto es a modo de organizar mi código, no es obligatorio para que funcione.
+
+### Page Not Found
+
+Cuando se implementa `BrouserRouter` al invocar rutas que no existen en el navegador, dara como resultado una página vacia, para capturar una ruta inexistente y llevar al usuario a una página que le indique dicho error, se utiliza la siguiente ruta:
+
+```JavaScript
+<Route path="*" element={<NotFound />} />
+```
+
+Creando una ruta al componente apropiado para dicho error, en este ejemplo usamos nuestro propio componente `<NotFound>`, con la información que deseemos mostrar.
+
+### NavLink
+
+Al ingresar en el navegador la ruta, la página se recarga y obviamente tampoco es el método que va a utilizar el usuario normalmente. Por ese motivo creamos una navegación atravez de los _NavLinks_ que ademas de darle al usuario una forma de navegar en nuestra aplicación, hace que las páginas _no se recargen continuamente_.
+
+**Importante:** No deben usarse los links ej: `<a href="/users">` esto funciona pero hace que la página se recargue. Deben usarse los _NavLinks_, excepto para enlaces externos a la aplicación.
+
+#### NavLink vs Link
+
+La principal diferencia entre `NavLink` y `Link` en `react-router-dom` es que `NavLink` está diseñado específicamente para resaltar el enlace como activo. Esto es útil para construir un menú de navegación en el que el usuario necesita saber en qué página se encuentra actualmente. `Link`, por otro lado, simplemente proporciona una forma de enlazar a otra ubicación en la aplicación.
+
+Además, `NavLink` también acepta una prop llamada activeClassName, que se utiliza para especificar la clase que se debe aplicar al enlace activo. Mientras que Link no tiene esta prop. Ej:
+
+```JavaScript
+<li><NavLink to="/" className={(data) => console.log(data)}>Home</NavLink></li>
+```
+
+En este caso en `data` recibe un objeto:
+
+```JavaScript
+Object { isActive: true, isPending: false }
+```
+
+El cual podemos desestructurar y usar sus datos, por ej:
+
+```JavaScript
+<li>
+  <NavLink to="/" className={({isActive}) => isActive ? 'link-active' : '' }>
+    Home
+  </NavLink>
+</li>
+```
+
+En resumen, si necesita resaltar los enlaces activos en su aplicación, debe usar NavLink, de lo contrario, Link es una opción más adecuada funcionara como una etiqueta `<a href>` pero sin que refresque la página.
 
 `Header.jsx`
+
 ```JavaScript
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import "../styles/Header.css";
 import logo from "../img/react.svg";
 
@@ -1523,16 +1612,16 @@ function Header() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/characters">Character</Link>
+            <NavLink to="/characters">Character</NavLink>
           </li>
           <li>
-            <Link to="/games">Games</Link>
+            <NavLink to="/games">Games</NavLink>
           </li>
           <li>
-            <Link to="/credits">Credits</Link>
+            <NavLink to="/credits">Credits</NavLink>
           </li>
         </ul>
       </nav>
@@ -1542,8 +1631,40 @@ function Header() {
 
 export default Header;
 ```
+### Params
+Los params (parametros) en `react-router-dom` nos son de utilidad para pasar argumentos al componente por medio de las rutas.
 
+En la ruta se agrega el parametro precedido por `:` ej: `/<ruta>/:parametro`.
+```JavaScript
+<Route path="/user/:userId" element={<UserPage />} />
+```
+En el componente importamos el hook `useParams` de `react-router-dom` y utilizando este hook obtenemos un objeto con el/los parametro/s enviado/s ej:
+```JavaScript
+import { useParams } from "react-router-dom";
 
+const UserPage = () => {
+  const { userId } = useParams();
+
+  return (
+    <div>
+      <h1>User: {userId}</h1>
+    </div>
+  );
+};
+
+export default UserPage;
+```
+**Nota:** Multiples parametros se separan por `/` en la ruta ej:
+```JavaScript
+<Route path="/user/:userId/:userName" element={<UserPage />} />
+...
+const params = useParams();
+console.log(params);
+...
+localhos:5173/user/10/Alberto
+...
+> Object { userId: "10", userName: "Alberto" }
+```
 
 ## Vite
 
@@ -1753,38 +1874,49 @@ Por lo cual deben satizarse esos strings antes de usar la opción `dangerouslySe
 Instalación de dompurify y uso:
 
 1. `npm install dompurify`
-2. importar: 
+2. importar:
+
 ```JavaScript
 import DOMPurify from "dompurify";
 ```
-3. Aplicar el texto deseado: 
-```JavaScript 
+
+3. Aplicar el texto deseado:
+
+```JavaScript
 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(texto)}}
 ```
 
 [npm dompurify](https://www.npmjs.com/package/dompurify)
 
 ### Evaluar una Expresión Matematica de un String
+
 Para ello debe instalarse el paquete para JavaScript y Nodesjs [mathjs](https://mathjs.org/).
 
 La función `evaluate(<string>)` nos retorna el resultado de la expresión.
 
 Instalación y uso:
+
 1. `npm install mathjs`
-2. importar la función de la libreria: 
-```JavaScript 
+2. importar la función de la libreria:
+
+```JavaScript
 import { evaluate } from 'mathjs';
 ```
-3. Ejemplo de uso: 
+
+3. Ejemplo de uso:
+
 ```JavaScript
 let resultado = evaluate('30 / 3 * 5 + 1')
 ```
+
 resultado es 51.
 
 [mathjs Documentación](https://mathjs.org/)
 
 ### Evaluar String Vacio y Sacar Espacios en Blanco.
+
 El método `trim()` nos retorna un nuevo string, al que le remueve los espacios vacios tanto al principio como al final de este. Nos puede servir tanto para evaluar un string vacio, como también remover los espacios vacios en el comienzo y al final de un string.
+
 ```JavaScript
 let texto = " El texto de Elnesto! ";
 
@@ -1796,6 +1928,7 @@ Consola> 'El texto de Elnesto!'
 ```
 
 ## Notas CSS
+
 - `user-select: none` No permite seleccionar el texto, bueno para botones hechos con `<div>`
 - `flex: 1 1` En el flex item hace que cada elemento tenga el mismo ancho dentro del contenedor.
 - `:nth-child(3n + 1)`: Ver en la [documentación](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child) como intercalar color para listas.
