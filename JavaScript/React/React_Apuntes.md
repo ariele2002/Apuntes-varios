@@ -1938,7 +1938,7 @@ export const store = configureStore({
 });
 ```
 ### Utilizando el Estado
-Para utilizar el estado, `react-redux` no ofrece `useDispatch` y `useSelector`.
+Para utilizar el estado, `react-redux` nos ofrece `useDispatch` y `useSelector`.
 - `useDispatch`: Es para poder traer los datos dentro del estado . Tiene acceso a todo el estado, por lo cual podemos elegir a que parte queremos acceder.
 - `useSelector`: Es para seleccionar o traer algo desde el estado.
 
