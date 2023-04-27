@@ -1631,14 +1631,19 @@ function Header() {
 
 export default Header;
 ```
+
 ### Params
+
 Los params (parametros) en `react-router-dom` nos son de utilidad para pasar argumentos al componente por medio de las rutas.
 
 En la ruta se agrega el parametro precedido por `:` ej: `/<ruta>/:parametro`.
+
 ```JavaScript
 <Route path="/user/:userId" element={<UserPage />} />
 ```
+
 En el componente importamos el hook `useParams` de `react-router-dom` y utilizando este hook obtenemos un objeto con el/los parametro/s enviado/s ej:
+
 ```JavaScript
 import { useParams } from "react-router-dom";
 
@@ -1654,7 +1659,9 @@ const UserPage = () => {
 
 export default UserPage;
 ```
+
 **Nota:** Multiples parametros se separan por `/` en la ruta ej:
+
 ```JavaScript
 <Route path="/user/:userId/:userName" element={<UserPage />} />
 ...
@@ -1665,6 +1672,385 @@ localhos:5173/user/10/Alberto
 ...
 > Object { userId: "10", userName: "Alberto" }
 ```
+
+### Navigate
+
+Se utiliza para redireccionar a una página de una ruta que ya hemos creado y una vez
+redirigido, no deja retornar con el historial hacia atras. Se suele utilizar para redirigir a la página de final de seción o logout.
+
+```JavaScript
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+...
+<Route path="/moreusers" element={<Navigate to="/users" />} />
+```
+
+La propiedad `replace` es opcional e indica que la nueva ruta debe reemplazar la actual en el historial de la sesión en lugar de agregar una nueva entrada. Esto es útil, por ejemplo, cuando deseas evitar que un usuario haga clic en el botón "Atrás" y vuelva a la página anterior después de haber navegado a la nueva ruta.
+
+```JavaScript
+<Route path="/moreusers" element={<Navigate replace to="/users" />} />
+```
+
+**Es importante notar** que en la última versión de `react-router-dom` se utiliza el _hook_ `useNavigate` en lugar de `Navigate`. Por lo tanto, el uso de `Navigate` no será posible en futuras versiones de la biblioteca.
+
+### useNavigate
+
+El _hook_ `useNavigate` es una función proporcionada por la librería `react-router-dom` en React. Devuelve una función que permite navegar programáticamente mediante el cambio de URL y la renderización del componente correspondiente. Para usar `useNavigate` puedes importarlo de la siguiente manera:
+
+```JavaScript
+import { useNavigate } from 'react-router-dom';
+```
+
+Una vez importado, puedes usarlo en tu componente de esta manera:
+
+```JavaScript
+function MyComponent() {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate('/ruta'); // Navegar a una ruta específica
+  }
+
+  return (
+    <button onClick={handleClick}>Navegar a la ruta</button>
+  );
+}
+```
+
+_Nota:_ Es importante tener la librería react-router-dom instalada y configurada correctamente en tu proyecto antes de utilizar el useNavigate hook.
+
+### Subcomponentes
+
+Podemos renderizar _subcomponentes_ dentro del componente principal agregando rutas secundarias ej: ruta principal: `/dashboard` subruta: `/dashboard/welcome`.
+De esta manera podemos anidar subcomponentes en renderizados mas complejos ej: `/dashboard/welcom/status/etc...`.
+
+```JavaScript
+import { useNavigate, Routes, Route, Link } from "react-router-dom";
+
+function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
+  return (
+    <div>
+      <h1>Dashboar</h1>
+      <button onClick={handleClick}>Logout</button>
+      <Link to="welcome">Say Welcome</Link>
+
+      <Routes>
+        {/*ruta secundaria*/}
+        <Route path="welcome" element={<p>Welcome!!!</p>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default Dashboard;
+```
+
+Esto renderizará el componente declarado en `element` dentro del componente principal, ahora bien, para que esto ocurra debemos hacer un cambio en la ruta que nos lleva al componente principal:
+
+```JavaScript
+<Route path="/dashboard/*" element={<Dashboard />} />
+```
+
+Al agregar el `/*` estamos diciendo que tome todas las rutas despues de `/dashboard/` si no lo hicieramos, saldría por nuestra página de error por defecto al no encontrar la ruta.
+
+**NOTA:** Esta no es la mejor forma de distribuir nuestas rutas, haciendolo dentro de cada componente, para eso utilizaremos una buena practica que se vera en la siguiente sección _Subroutes_.
+
+### Subroutes
+
+En React Router, las subrutas (sub routes) son rutas que están anidadas dentro de otras rutas. Las subrutas son útiles para crear rutas jerárquicas en una aplicación y para permitir la navegación dentro de componentes anidados.
+
+Veamos el ejemplo anterior usando sub routes:
+`App.jsx`
+
+```JavaScript
+...
+        <Route path="/moreusers" element={<Navigate replace to="/users" />} />
+        <Route path="/dashboard/*" element={<Dashboard />}>
+          <Route path="welcome" element={<p>Welcome!!!</p>} />
+          <Route path="goodbye" element={<p>Good Bye!!!</p>} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+...
+```
+
+Como se puede observar la ruta `<Route>` de `dashboard` ahora tiene una etiqueta de cierre `</Route>` y dentro las sub routes para ese componente `<Dashboard>`, es obvio que el `element` de las sub routes es simple para el ejemplo, pero pueden tratarse de componentes con distintos niveles de complegidad.
+
+Ahora bien, si lo probamos así, los `element` de las sub routes no serán renderizados, por la simple razón que en el componente no esta definido el lugar donde debe ser renderizado.
+Para esto `react-router-dom` cuenta con el componente `Outlet` que debe importarse en este caso a `<Dashboar>`.
+
+`Dashboard.jsx`
+
+```JavaScript
+import { useNavigate, Link, Outlet } from "react-router-dom";
+
+function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
+  return (
+    <div>
+      <h1>Dashboar</h1>
+      <button onClick={handleClick}>Logout</button>
+      <br />
+      <Link to="welcome">Say Welcome</Link>
+      <br />
+      <Link to="goodbye">Say Good Bye</Link>
+
+      <Outlet />
+
+    </div>
+  );
+}
+
+export default Dashboard;
+```
+
+El `element` de la sub route sera renderizado en la posición en que se coloque `<Outlet>`.
+Esta es la forma en la que se ordenan las sub routes y pueden anidarse en sub routes de sub rutes de sub routes etc... según la necesidad de la aplicación.
+
+### Rutas Protegidas
+
+Podemos protejer nuestras rutas de accesos indebidos o comprobando permisos aca dejo un ejemplo de como podria hacerse esto, por medio de un modulo y su llamada desde los `Route` tanto para subrutas con mismo acceso como para rutas individuales.
+
+`ProtectedRoutes.jsx`
+
+```JavaScript
+import { Navigate, Outlet } from "react-router-dom";
+
+function ProtectedRoutes({ isAllowed, children, redirectTo="/landing" }) {
+  if (!isAllowed) {
+    return <Navigate to={redirectTo} />;
+  }
+
+  return children ? children : <Outlet />;
+}
+
+export default ProtectedRoutes;
+```
+Puede verse en `ProtectedRoutes` que si recibe sub rutas, este renderizará con `<Outlet />` y si recibe una ruta individual, renderizará con `children`. La `prop` `redirectTo` recibe un valor por defecto y también nos es util para enviarle la ruta de redirección apropiada para cada caso.
+
+`App.jsx`
+
+```JavaScript
+// Ejemplo para sub rutas mismo nivel de permiso.
+  <Route element={<ProtectedRoutes isAllowed={!!user} />}>
+    <Route path="/home" element={<Home />} />
+    <Route path="/dashboard" element={<Dashboard />} />
+  </Route>
+// Ejemplo para rutas individuales
+  <Route
+    path="/analytic"
+    element={
+      <ProtectedRoutes
+        isAllowed={!!user && user.permissions.includes("analize")}
+        redirectTo="/home"
+      >
+        <Analytic />
+      </ProtectedRoutes>
+    }
+  />
+  <Route
+    path="/admin"
+    element={
+      <ProtectedRoutes
+        isAllowed={!!user && user.roles.includes("admin")}
+        redirectTo="/home"
+      >
+        <Admin />
+      </ProtectedRoutes>
+    }
+  />
+```
+
+## React Redux Toolkit
+Una vez creado el proyecto en React, instalamos las librerias redux y redux-toolkit esta ultima nos va a facilitar la vida con redux.
+```JavaScript
+npm install @reduxjs/toolkit react-redux
+```
+Una vez instalas las librerias hay que crear el `store`, siguiendo la documentación y la estructura que nos indica, creamos el archivo en `/src/app/store.js` y copiamos la configuración del store.
+```JavaScript
+import { configureStore } from '@reduxjs/toolkit'
+
+export const store = configureStore({
+  reducer: {},
+})
+```
+El store nos retornara un `objeto` con el estado. 
+Esto es como crear un `useState()` fuera de la plicación que podra compartirse con los distintos componentes.
+
+Luego importamos el `Provider` en nuestro archivo `index.jsx` (`main.jsx` en vite js) para armar el contexto, encerrando el componente que va a compartir el estado que agregaremos como una propiedad del `Provider`.
+
+`main.jsx`
+```JavaScript
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from './app/store';
+import App from "./App";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
+```
+### Create a Redux State Slice
+Hasta aqui configuramos el estado, pero esta vacio. Lo siguiente que debemos crear el/os `reducer`, que son la forma de actualizar los estados y crear operaciones para alterar el estado. Piensa en el `reducer` como el `setStatus()` del `useState()`.
+
+Para crear un `reducer` Redux Toolkit nos ofrece los `createSlice` y `createReducer` Las API usan Immer inside para permitirnos escribir una lógica de actualización "mutante" que se convierta en actualizaciones inmutables correctas.
+
+Para crearlo seguimos la estructura de la documentación `/src/features/<grupo>/<grupoSlice.js>`. No es necesaria esta estructura y los nombres, pero es más ordenada.
+
+`src/features/tasks/taskSlice.js`
+```JavaScript
+import { createSlice } from '@reduxjs/toolkit';
+
+export const taskSlice = createSlice({
+    name: 'tasks',
+    initialState: [],
+    reducers: {},
+});
+
+export default taskSlice.reducer;
+```
+**Nota:** Como puede verse la importación por default retorna el `reducer`.
+
+Una vez tenemos nuestro `slice` hay que importarlo en nuestro `store.js`. _Hay que tener en cuenta que nuestro store requiere los reducers_, por lo cual importamos el default.
+```JavaScript
+import { configureStore } from "@reduxjs/toolkit";
+import tasksReducer from "../features/tasks/taskSlice";
+
+export const store = configureStore({
+  reducer: {
+    tasks: tasksReducer,
+  },
+});
+```
+### Utilizando el Estado
+Para utilizar el estado, `react-redux` no ofrece `useDispatch` y `useSelector`.
+- `useDispatch`: Es para poder traer los datos dentro del estado . Tiene acceso a todo el estado, por lo cual podemos elegir a que parte queremos acceder.
+- `useSelector`: Es para seleccionar o traer algo desde el estado.
+
+Aqui importamos dentro del componente el acceso que deseamos del estado.
+
+`App.jsx`
+```JavaScript
+import "./App.css";
+import { useSelector } from 'react-redux'
+
+function App() {
+
+  const tasksState = useSelector(state => state.tasks);
+  console.log(tasksState);
+
+  return <div className="App">
+    <h1>Hello World!</h1>
+  </div>;
+}
+
+export default App;
+```
+Esto es a modo de ejemplo, en el cual muestra el estado por consola. Con esta sintaxis en cualquier componente dentro de la app, puede tener acceso al estado independientemente del anidamiento dentro de la app.
+
+### List
+Ejemplo de una lista usando el estado:
+
+`TasksList.jsx`
+```JavaScript
+import { useSelector } from "react-redux";
+
+function TasksList() {
+  const tasks = useSelector((state) => state.tasks);
+
+  return (
+    <>
+      {tasks.map((task) => (
+        <div key={task.id}>
+          <h3>{task.title}</h3>
+          <p>{task.description}</p>
+        </div>
+      ))}
+    </>
+  );
+}
+
+export default TasksList;
+```
+### Create (crear un item nuevo en el estado)
+Para agregar datos a nuestro _estado_ dentro de nuestro `state`, debemos declarar las correspondientes acciones en la propiedad `reducers` de nuestro `State Slice` y exportarla destructurandola del `stateSlice.actions`.
+
+`taskSlice.js`
+```JavaScript
+const initialState = [... Datos iniciales...];
+
+export const taskSlice = createSlice({
+  name: "tasks",
+  initialState, // esto resumiria initialState: initialState
+  reducers: { // aca se declaran las funciones para modificar el estado.
+    addTask: (state, action) => {
+      return [...state, action.payload];
+    },
+  },
+});
+
+export const { addTask } = taskSlice.actions;
+export default taskSlice.reducer;
+``` 
+Nuestra acciones tienen dos parámetros `state` y `action`, en esta última no le podemos pasar argumentos y es la que nos va a retornar `type` que es el tipo de acción y `payload` en la cual nos retorna los datos que pasamos como argumentos.
+```JavaScript
+  reducers: { 
+    addTask: (state, action) => {
+      return [...state, action.payload];
+    },
+  },
+```
+Luego de agregar las acciones en nuestro `stateSlice` debemos importar en el componente que va a utilizarlo `useDispatch` de `react-redux` y la acción de nuestro `stateSlice`.
+
+`TaskForm.jsx`
+```JavaScript
+import { useDispatch } from "react-redux";
+import { addTask } from "../features/tasks/taskSlice";
+```
+Por medio de `useDispatch` utilizaremos nuestra acción `addTask` para modificar el estado, como veremos en la función `handleSubmit`.
+
+`TaskForm.jsx`
+```JavaScript
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addTask({
+      ...task,
+      id: uuid(),
+    }));
+  };
+```
+### Delete (borrar un item del estado)
+... continuará...
+
+[Documentación](https://redux-toolkit.js.org/)
+
+Recurso para navegador Redux DevTools [Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd), [Fire Fox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/).
+
+[Tutorial](https://www.youtube.com/watch?v=w2rAP7d6ndg&t=1395s)
 
 ## Vite
 
@@ -1849,6 +2235,22 @@ Esta sintaxis acorta aún mas un if de una sola linea, por ejemplo antes seria `
   )
 }
 ```
+
+## Operador !!
+
+En JavaScript, el operador `!!` se conoce como el operador de doble negación o también como el operador de coercción a booleano. Este operador toma cualquier valor o expresión y la convierte en un valor booleano, es decir, en `true` o `false`.
+
+La expresión `!!valor` es equivalente a `Boolean(valor)`. Por ejemplo:
+
+```JavaScript
+var x = "Hola";
+var y = !!x;
+console.log(y); // true
+```
+
+Aquí, la expresión `!!x` convierte la cadena `"Hola"` en `true` y luego asigna ese valor a la variable `y`.
+
+En resumen, el operador `!!` es útil para convertir cualquier valor a un valor _booleano_, lo que puede ser útil en situaciones como validación de formularios o manejo de valores de respuesta en API.
 
 ## Tips y Trucos
 
