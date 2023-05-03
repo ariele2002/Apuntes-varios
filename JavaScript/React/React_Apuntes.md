@@ -2044,13 +2044,77 @@ Por medio de `useDispatch` utilizaremos nuestra acción `addTask` para modificar
   };
 ```
 ### Delete (borrar un item del estado)
-... continuará...
+Para eliminar un registro del estado, agregamos un `action` en este caso el `deleteTask` en el `reducers` de nuestro `taskSlice` y lo exportamos como en el ejemplo anterior.
+
+`taskSlice.jsx`
+```JavaScript
+import { createSlice } from "@reduxjs/toolkit";
+
+export const taskSlice = createSlice({
+  name: "tasks",
+  initialState, // esto resumiria initialState: initialState
+  reducers: {
+    addTask: (state, action) => {
+      // state.push(action.payload);
+      return [...state, action.payload];
+    },
+    deleteTask: (state, action) => {
+      return state.filter(task => task.id !== action.payload);
+    },
+  },
+});
+
+export const { addTask , deleteTask } = taskSlice.actions;
+export default taskSlice.reducer;
+```
+Ahora importamos el `action` y el `useDispatch` en el componente que va a utilizarlo. Luego hacemos que el `useDispatch` active el `deleteTask` en nuestra función `handleDelete`.
+
+`TasksList.jsx`
+```JavaScript
+import { useSelector, useDispatch } from "react-redux";
+import { deleteTask } from '../features/tasks/taskSlice';
+
+function TasksList() {
+  const tasks = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(deleteTask(id));
+  }
+
+  return (
+    <div>
+      {tasks.map((task) => (
+        <div key={task.id}>
+          <h3>{task.title}</h3>
+          <p>{task.description}</p>
+          <button onClick={() => handleDelete(task.id)}>Delete</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default TasksList;
+```
+### Edit (modificar)
+
+
 
 [Documentación](https://redux-toolkit.js.org/)
 
 Recurso para navegador Redux DevTools [Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd), [Fire Fox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/).
 
 [Tutorial](https://www.youtube.com/watch?v=w2rAP7d6ndg&t=1395s)
+
+## USE SIGNALS (Adios useState!)
+(Completar este texto) Reemplaza al useState aumentando la performance y evitando el re-renderizado del arbol de componentes.
+
+[Documentación y Libreria](https://www.npmjs.com/package/@preact/signals-react)
+
+[React Blog sobre el tema](https://preactjs.com/blog/introducing-signals/?ck_subscriber_id=1700517780)
+
+[Tutorial](https://www.youtube.com/watch?v=B1JEXugOTiQ)
 
 ## Vite
 
@@ -2253,6 +2317,24 @@ Aquí, la expresión `!!x` convierte la cadena `"Hola"` en `true` y luego asigna
 En resumen, el operador `!!` es útil para convertir cualquier valor a un valor _booleano_, lo que puede ser útil en situaciones como validación de formularios o manejo de valores de respuesta en API.
 
 ## Tips y Trucos
+
+### Iterar Objeto con Object.entries()
+Object.entries() retorna el par llave valor.
+```JavaScript
+const results = {
+  news: [],
+  profiles: {
+    user: []
+  }
+}
+
+Object.entries(results).
+  .map(entry => {
+    const[key, value] = entry;
+    console.log({key, value});
+  });
+
+```
 
 ### Representar html embebido en un string: (OJO Leer Advertencia antes de usar)
 
