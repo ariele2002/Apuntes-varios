@@ -505,7 +505,7 @@ They don't drink milk, because they like orange juice. She goes to work at 7:30 
 [Recursos practica Presente simple](https://www.youtube.com/watch?v=o24tpCah7Q4)
 
 ## LECCION #17 Dias de la semana y adverbios frecuencia.
-Dias de la semana: (siempre van en mayúsculas)
+### Dias de la semana: (siempre van en mayúsculas)
 |Inglés|Español|
 |---|---|
 |Monday| lunes|
@@ -516,7 +516,8 @@ Dias de la semana: (siempre van en mayúsculas)
 |Saturday| sabado|
 |Sunday| domingo|
 ||
-Frequency Adverbs: (add + info -> verb que da mas información al verbo).
+
+### Frequency Adverbs: (add + info -> verb que da mas información al verbo).
 
 |Inglés| Español| Ejemplo|
 |---|---|---|
@@ -898,7 +899,7 @@ Los adverbios, agregan información al verbo y estos son los que pueden compleme
 
 [Tutorial](https://www.youtube.com/watch?v=r8Hv3GOv_b0)
 
-## SIMPLE PAST - PASADO SIMPLE
+## SIMPLE PAST - PASADO SIMPLE (pasado de DO/DOES)
 Se utiliza para acciones y actividades que `ya` ocurrieron. <br>
 **A tener en cuenta:** Tiene un auxiliar `DID` en verbos `regulares` e `irregulares` que se utiliza para oraciones _negativas_ y para _hacer preguntas_.
 | Ejemplo verbo regular| Ejemplo verbo irregular|
@@ -971,6 +972,93 @@ Ejemplo:
   - No se usa para personas Juan'd, my daugther'd **no es correcto**.
 - La forma abreviada negativa `wouldn't`, se pronuncia `wurent`.
 
+## Presente Perfecto HAVE - HAS
+Nota: Verbos regulares terminan en `ed` ej: worked, laughed.
+|Infinitivo|Pasado Simple| Pasado Participio (ado, ido)| tipo|
+|---|---|---|---|
+|trabajar|trabajé|trabajado| regular|
+|work|worked|worked| regular|
+|reir|reí|reido| regular|
+|laugh|laughed|laughed| regular|
+|comer|comió| comido| irregular|
+|eat| ate|eaten| irregular|
+|leer|leyó|leido| irregular|
+|read|read|read| irregular|
+
+En el presente perfecto solo se usa la columna del Pasado Participio.
+
+|HAVE| HAS| En este caso no es tener sino haber|
+|---|---|---|
+|I, You, We, They| He, She, It|We have (we've) worked a lot. |
+|||She has eaten fish. / She's eaten fish.|
+
+Estructuras:
+|+/-|Pronombre +|have, has +|verb. part. +|complemento|
+|---|---|---|---|---|
+|+|Ellos| han| encontrado|los zapatos|
+|+|They|have|found|the shoes.|
+|-|They|have not (haven't)|found|the shoes|
+
+|?|Have, has +|pronombre +|verb. part. +|complemento|
+|---|---|---|---|---|
+|?|Have| they|found|the shoes?|
+
+## ALREADY, YET, STILL (Cuando usarlos)
+Estas tres palabras se relacionan, ¿pero como se relacionan?, `Already` se relaciona con `yet` y esta ultima con `still` pero _no hay relación_ entre `already` y `still`.
+
+### ALREADY 
+Significa **ya** y se utiliza en oraciones afirmativas e interrogaciones.
+
+**Posición**: Despues de `to be`, final de oraciones y entre `auxiliar` y `verbo` principal.
+
+Ejemplos:
+|1.|Nosotros ya estamos en clase.| Nosotros estamos en clases ya.|Nota|
+|---|---|---|---|
+|+| We are already in class.| We are in class already.||
+|?| Are we already in class?| Are we in class already?| Puede ir `yet` se usa al final de interrogariva solamente.|
+
+|2.|Ellos ya han visto este tema.| Ellos han visto este tema ya.|Nota|
+|---|---|---|---|
+|+| They have already seen this topic.| They have seen this topic already||
+|?| Have they already seen this topic?| Have they seen this topic already?|Puede ir `yet` se usa al final de interrogariva solamente.|
+
+### YET
+Significa: Al final de la oración es `aún`, `todavía`, `ya`. Entre oraciones (conjunción) es `pero`, `sin embargo`.
+
+Oraciones negarivas: `aún`, `todavia`.
+
+Oraciones interrogativas: `ya`.
+
+Oraciones interro-negarivas: `aún`, `todavia`.
+
+Ejemplos:
+|1.|Ella no ha entendido todavía| Nota|
+|---|---|---|
+|-|She has not/hasn't understood yet.| aún, todavía|
+|?+|Has she understood yet?| ya|
+|?-|Hasn't she understood yet?| aún, todavía|
+
+|2.|Ella no ha entendido todavía, pero ella todavía sigue practicando| Nota|
+|---|---|---|
+|-|She hasn`t understood yet, yet she sill practicing.|1er yet: aún, todavía - 2do yet: pero,sin embargo. el still: aún, todavía |
+
+### STILL
+|Still| En que momento| Posición| Uso|
+|---|---|---|---|
+|Todavía| En progreso| Despues del to be|+ - ?|
+|Aún, todavía|Algo no realizado aún|Antes del auxiliar o modal|+ - ?|
+|Aún así| Conjunción|Entre dos oraciones|+ - ?|
+
+Ejemplos:
+|No.| Oración|
+|---|---|
+|1.|Nosotros todavía estamos viendo este video.|
+||We are still watching this video.|
+|2.|Todavía no puedo comprarlo.|
+||I still can't buy it / I can't buy it yet .|
+|3.|¿Estas todavía allá?|
+||Are you still there?|
+
 ## TO y FOR
 En TO vamos a tener presente dos significados que son `a` y `para` y se utiliza para `transferencia` de algo o `movimiento`.
 |Reglas|
@@ -1005,6 +1093,7 @@ En FOR vamos a tener presente dos significados que son `por` y `para` y se utili
 |This is `for` you.|
 |I stopped the car `for` some coffe.|
 ||
+
 
 Ejercicios: https://www.pacho8a.com/ingl%C3%A9s/curso-ingl%C3%A9s-nivel-b%C3%A1sico/lecci%C3%B3n-22/
 
@@ -1073,6 +1162,7 @@ Aeropuerto: https://www.youtube.com/watch?v=Yyvouezf2s0
 - [Italki](https://www.italki.com/es) buscar otros estudiantes para practicar gratis.
 - [Speaky](https://www.speaky.com/) buena, con algunos bugs x ahí ya lo solucionaron.
 - [Open Talk](https://opentalk.eu/en) Mas avanzado, apretas boton y salid hablando.
+- [Ozdic](https://ozdic.com/) Dictionary to write and speack natural-sound English.
 
 Recomendados: HelloTalk y Tandem.
 
