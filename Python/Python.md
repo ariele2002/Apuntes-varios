@@ -142,7 +142,7 @@ Todos los métodos que comienzan en **is** retornan un booleano y son muy utiliz
 - `.lower()`: Retorna una **copia de la cadena** con todos sus caracteres en minúsculas.
 - `.upper()`: Retorna una **copia de la cadena** con todos sus caracteres en mayúsculas.
 
-## Ejemplo búsqueda de bocales:
+## Ejemplo búsqueda de vocales:
 
 ```py
 # Función que retorna la cantidad de vocales de un texto.
