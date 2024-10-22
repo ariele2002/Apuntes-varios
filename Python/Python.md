@@ -47,7 +47,6 @@ Nombre = "Pepe" o Nombre = 'Pepe'
 Para determinar el tamaño o longitud de una cadena (cantidad de caracteres que posee) se utiliza la función **len()**.
 
 ```py
-len("prueba")   # Retorna 6
 nombre = "Anastasia"
 len(nombre)    # Retorna la cantidad de caracteres en este caso 9.
 ```
@@ -61,9 +60,11 @@ cadena = "Probando"
 # indice  01234567
 ```
 
+**Nota:** A diferencia de los arreglos o matrices estas no pueden ser modificadas como se vera posteriormente.
+
 ### Indexing
 
-Si que queremos acceder a algún carácter individual del string utilizamos el método de **indexación** cuya sintaxis es `<string>[<indice>]` Ej:
+Si queremos acceder a algún carácter individual del string utilizamos el método de **indexación** cuya sintaxis es `<string>[<indice>]` Ej:
 
 ```py
 "Probando"[3] nos dará como resultado 'b'
@@ -73,6 +74,13 @@ Si indicamos un indice que esta fuera del rango de indices del string nos dará 
 
 ```py
 "Probando"[8] nos dará como resultado "IndexError"
+```
+
+Las cadenas string no pueden ser modificadas como las matrices o arreglos:
+
+```py
+text = "Probando"
+text[3] = "c" nos dará TypeError: 'str' object does not support item assignment
 ```
 
 ### f-string
@@ -111,12 +119,15 @@ nombre.capitalize() retorna "Roberto"
 Otros métodos muy usados:
 
 - `.find(), .index()`: Son utilizados para búsquedas.
-- `.isalnum()`: Retorna `True` si todos los caracteres son alfanuméricos.
+- `.isalnum()`: Retorna `True` si todos los caracteres son alfanuméricos. `([a-Z][0-9])`<br>
+  **Nota:** Se puede usar para verificar caracteres no alfanuméricos usando "if not", "!=" etc. También retorna `False` con espacios en blanco.
 
 ```py
-string = "Ricardo 10"
+string = "Ricardo10"
+string1 = "Ricardo 10"
 string2 = "Ricardo@gmail.com"
 string.isalnum() Retorna True
+string1.isalnum() Retorna False
 string2.isalnum() Retorna False
 ```
 
@@ -130,6 +141,21 @@ Todos los métodos que comienzan en **is** retornan un booleano y son muy utiliz
 
 - `.lower()`: Retorna una **copia de la cadena** con todos sus caracteres en minúsculas.
 - `.upper()`: Retorna una **copia de la cadena** con todos sus caracteres en mayúsculas.
+
+## Ejemplo búsqueda de bocales:
+
+```py
+# Función que retorna la cantidad de vocales de un texto.
+def vowels_in_string(text):
+    vowels = "aeiou"
+    counter = 0
+
+    for char in text:
+        if char.lower() in vowels:
+            counter += 1
+
+    return counter
+```
 
 ## La Función type()
 
@@ -393,14 +419,55 @@ finaliza con tres comillas dobles.
 """
 ```
 
+## Range
+
+Me es preciso explicar la utilización del **range()** aunque hay conceptos mas avanzados en la explicación, pero que se verán con posterioridad, pero
+harán que sea mas claro su uso en su momento.
+
+### Uso del Range:
+
+El `range()` genera un **iterable** con una secuencia de números que van desde `0` por defecto hasta el número que se pasa como parámetro menos `1`. En realidad, se pueden pasar hasta tres parámetros separados por coma, donde el primero es el **inicio de la secuencia**, el segundo es **final** y el tercero es **salto que se desea entre números**. Por defecto se empieza en `0` y el salto es de `1`.
+
+```py
+range(inicio, final, paso)
+```
+
+### Ejemplos
+
+```py
+# Genera un iterable de números del 0 al 5
+for i in range(6):
+    print(i)
+```
+
+```py
+# Genera un iterable de números pares del 2 al 10
+for i in range(2, 11, 2):
+    print(i)
+```
+
+### Tips
+
+Se pueden generar también secuencias **inversas**, empezando por un número **mayor** y terminando en uno **menor**, pero para ello el salto deberá ser **negativo**.
+
+```py
+# Genera un iterable de números de mayor a menor del 10 al 1
+for i in range(10, 0, -1):
+    print(i)
+```
+
+## Estructura de Datos (Listas, Tuplas, Diccionarios, Conjuntos)
+
 ## Listas
 
 Es una **estructura de datos** utilizada para almacenar múltiples valores en secuencia.
 Los valores son almacenados en **secuencias ordenadas** cada uno de los elementos tiene su propia secuencia mediante un índice (**index**).
 
 ```py
-lista = [1, 2, "peras", True, 3.4]
+varios = [1, 2, "peras", True, 3.4]
 ```
+
+Aunque está permitido, **NUNCA** llames `list` a una variable porque **destruirías la función que nos permite crear listas**. Y tampoco uses nombres derivados como `_list` o `list_` ya que no son nombres representativos que identifiquen el propósito de la variable.
 
 ### Características
 
@@ -408,7 +475,28 @@ lista = [1, 2, "peras", True, 3.4]
 - Puede contener valores de cualquier tipo.
 - Puede contener valores de distintos tipos.
 - Cada posición en la lista está asociada a un entero llamado **índice**.
-- Es **mutable**. Puede ser modificada.
+- Es **mutable**. Lo que significa que podemos **añadir**, **eliminar** o **modificar** sus elementos.
+
+### Conversión
+
+Para convertir otros tipos de datos en una lista podemos usar la función `list()`:
+
+```py
+>>> # Conversión desde una cadena de texto
+>>> list("Python")
+['P', 'y', 't', 'h', 'o', 'n']
+```
+
+Si nos fijamos en lo que ha pasado, al convertir la cadena de texto Python se ha creado una lista con 6 elementos, donde cada uno de ellos representa un carácter de la cadena. Podemos extender este comportamiento a cualquier otro tipo de datos que permita ser iterado **(iterables)**.
+
+Existe una manera particular de usar list() y es no pasarle ningún argumento. En este caso estaremos queriendo convertir el «vacío» en una lista, con lo que obtendremos una lista vacía:
+
+```py
+>>> list()
+[]
+```
+
+**Para crear una lista vacía, se suele recomendar el uso de [] frente a list(), no sólo por ser más pitónico sino por tener (en promedio) un mejor rendimiento en tiempos de ejecución.**
 
 ### Acceder a un elemento
 
@@ -486,6 +574,25 @@ print(frutas[0:6:3])
 $ ['pera', 'uva']
 ```
 
+#### Eliminar o Modificar elementos de la lista
+
+Usando slice (rebanar) es posible **eliminar** o **modificar** elementos de la lista:
+
+- Eliminar por rango:
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+  >>> shopping[1:4] = []
+  >>> shopping
+  ['Agua', 'Limón']
+  ```
+- Modificar por rango:
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+  >>> shopping[1:4] = ['Banana', 'Pera', 'Manzana']
+  >>> shopping
+  ['Agua', 'Banana', 'Pera', 'Manzana', 'Limón']
+  ```
+
 ### Indice negativo
 
 El indice negativo se utiliza para seleccionar un elemento desde el final de la cadena y de esta hacia la izquierda, donde el indice `[-1]` pertenece al ultimo elemento de la cadena.
@@ -522,14 +629,67 @@ $ ['pera', 'manzana']
   print(nums)
   >>> [6, 1, 2, 3, 4, 5]
   ```
-- `remove()` Elimina un elemento, este método nos permite eliminar la primera ocurrencia del elemento especificado en los paréntesis: `<lista>.remove(<elemento>)`
+- `del` Elimina un elemento de lista por medio de su indice: `del <lista>[<indice>]`
   ```py
-  nums = [1, 2, 3, 4, 5, 4]
-  nums.remove(4)
-  print(nums)
-  >>> [1, 2, 3, 5, 4]
+  >>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+  >>> del shopping[3]
+  >>> shopping
+  ['Agua', 'Huevos', 'Aceite', 'Limón']
   ```
+- `remove()` Elimina un elemento, este método nos permite eliminar la primera ocurrencia del elemento especificado en los paréntesis: `<lista>.remove(<elemento>)`
+
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+  >>> shopping.remove('Sal')
+  >>> shopping
+  ['Agua', 'Huevos', 'Aceite', 'Limón']
+  ```
+
   Si intentamos remover un valor que no existe en la lista nos dará un **ERROR**
+  **NOTA: Si existen valores duplicados, la función `remove()` sólo borrará la primera ocurrencia.**
+
+- `pop()` La sentencia `del` y la función `remove()` efectivamente borran el elemento indicado de la lista, pero no «devuelven» nada. Sin embargo, Python nos ofrece la función pop() que además de borrar, nos «recupera» el elemento; algo así como una extracción. Lo podemos ver como una combinación de acceso + borrado:
+
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+  >>> product = shopping.pop()  # shopping.pop(-1)
+  >>> product
+  'Limón'
+  >>> shopping
+  ['Agua', 'Huevos', 'Aceite', 'Sal']
+
+  >>> product = shopping.pop(2)
+  >>> product
+  'Aceite'
+  >>> shopping
+  ['Agua', 'Huevos', 'Sal']
+  ```
+
+  Si usamos la función `pop()` sin pasarle ningún argumento, por defecto usará el índice `-1`, es decir, el último elemento de la lista. Pero también podemos indicarle el índice del elemento a extraer.
+
+- **Borrado completo de una lista**
+
+  Python nos ofrece, al menos, dos formas para borrar una lista por completo:
+
+  - Utilizando la función `clear()`:
+    ```py
+    >>> num = [1, 2, 3, 4]
+    >>> num.clear() # Borra in situ
+    >>> num
+    []
+    ```
+  - «Reinicializando» la lista a vacío con `= []`:
+    ```py
+    >>> num = [1, 2, 3, 4]
+    >>> num = []    # Nueva zona de memoria
+    >>> num
+    []
+    ```
+
+  La diferencia entre ambos métodos tiene que ver con cuestiones internas de gestión de memoria y de rendimiento, mientras que `clear()` mantiene la misma posición de memoria, `= []` crea una nueva posición de memoria. La memoria que queda «en el limbo» después de asignar un nuevo valor a la lista es detectada por el recolector de basura de Python, quien se encarga de liberar aquellos datos que no están referenciados por ninguna variable.
+
+  A efectos de velocidad de ejecución, `clear()` «parece» ir más rápido que shopping `= []`.
+
 - `in` Verifica si un elemento esta en la lista `<elemento> in <lista>`
 
   ```py
@@ -549,6 +709,17 @@ $ ['pera', 'manzana']
   >>> "Pepe esta en la lista!"
   ```
 
+- `not in` Es la negación, si no esta en la lista retorna `True`.
+
+  ```py
+  if "Ana" not in lista:
+    print("Ana no esta en la lista!")
+  else:
+    print("Ana esta en la lista")
+
+  >>> Ana no esta en la lista
+  ```
+
 - `index()` Retorna el índice de la primera ocurrencia del elemento en la lista. Si no se encuentra el elemento, ocurre un error. `<lista>.index(<elemento>)`
   ```py
   nombre = ["Ana", "Juan", "Francisco","Juan"]
@@ -556,27 +727,359 @@ $ ['pera', 'manzana']
   >>> 1
   ```
 
-### Cambiar valores en una lista
+### Modificar valores de una lista
 
-Para cambiar un valor en una lista se utiliza la siguiente sintaxis: `<lista>[<índice>] = <nuevo_valor>`
+- **Por su índice:** Para cambiar un valor en una lista se utiliza la siguiente sintaxis: `<lista>[<índice>] = <nuevo_valor>`
+
+  ```py
+  >>> nums = [1, 2, 3, 4]
+  >>> nums[2] = 6
+  >>> nums
+  [1, 2, 6, 4]
+  ```
+
+  En el caso de acceder a un **índice no válido** de la lista, incluso para modificar, obtendremos un error
+
+### Combinar Listas
+
+Python nos ofrece dos aproximaciones para combinar listas:
+
+- **Conservando la lista original**. Mediante el operador `+` o `+=`:
+
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite']
+  >>>fruitshop = ['Naranja', 'Manzana', 'Piña']
+  >>> shopping + fruitshop
+  ['Agua', 'Huevos', 'Aceite', 'Naranja', 'Manzana', 'Piña']
+  ```
+
+- **Modificando la lista original**. Mediante la función `extend()`:
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite']
+  >>> fruitshop = ['Naranja', 'Manzana', 'Piña']
+  >>> shopping.extend(fruitshop)
+  >>> shopping
+  ['Agua', 'Huevos', 'Aceite', 'Naranja', 'Manzana', 'Piña']
+  ```
+  Hay que tener en cuenta que `extend()` funciona adecuadamente si pasamos una lista como argumento. En otro caso, quizás los resultados no sean los esperados. Veamos un ejemplo:
+  ```py
+  >>> shopping = ['Agua', 'Huevos', 'Aceite']
+  >>> shopping.extend('Limón')
+  >>> shopping
+  ['Agua', 'Huevos', 'Aceite', 'L', 'i', 'm', 'ó', 'n']
+  ```
+  El motivo es que `extend()` «recorre» (o itera) sobre cada uno de los elementos del objeto en cuestión. En el caso anterior, al ser una cadena de texto, está formada por caracteres. De ahí el resultado que obtenemos.
+
+### Convertir String a Listas y Viceversa
+
+#### Dividir una cadena de texto en lista
+
+`split()`: Una tarea muy común al trabajar con cadenas de texto es dividirlas por algún tipo de separador. En este sentido, Python nos ofrece la función `split()`, que debemos usar anteponiendo el «string» que queramos dividir:
 
 ```py
-nums = [1, 2, 3, 4]
-nums[2] = 6
-print(nums)
->>> [1, 2, 6, 4]
+>>> proverb = 'No hay mal que por bien no venga'
+>>> proverb.split()
+['No', 'hay', 'mal', 'que', 'por', 'bien', 'no', 'venga']
+
+>>> tools = 'martillo,sierra,destornillador'
+>>> tools.split(',')
+['martillo', 'sierra', 'destornillador']
 ```
 
-### Métodos de las Listas
+La función `split()` devuelve una lista donde cada elemento es una parte de la cadena de texto original
+
+**Nota:** Si no se especifica un separador, `split()` usa por defecto cualquier secuencia de espacios en blanco, tabuladores y saltos de línea.
+
+#### Particionado de cadenas de texto (retorna una tupla)
+
+`partition`: Existe una forma algo más «elaborada» de dividir una cadena a través del particionado. Para ello podemos valernos de la función `partition()` que proporciona Python.
+
+Esta función toma un argumento como separador, y divide la cadena de texto en 3 partes: lo que queda a la izquierda del separador, el separador en sí mismo y lo que queda a la derecha del separador:
+
+```py
+>>> text = "3 + 4"
+>>> text.partition('+')
+('3', '+', '4') # Retorna una tupla
+```
+
+**Nota:** En este caso el resultado de la función `partition()` es una tupla.
+
+Esa tupla resultante puede pasarse a una lista:
+
+```py
+>>> list(text.partition('+'))
+['3', '+', '4']
+```
+
+#### Unir una lista en cadena de texto (string)
+
+`join()`: Dada una lista, podemos convertirla a una cadena de texto, uniendo todos sus elementos mediante algún separador. Para ello hacemos uso de la función `join()` con la siguiente estructura `<separador>.join(<lista>)`:
+
+```py
+>>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+
+>>> ','.join(shopping)
+'Agua,Huevos,Aceite,Sal,Limón'
+
+>>> ' '.join(shopping)
+'Agua Huevos Aceite Sal Limón'
+
+>>> '|'.join(shopping)
+'Agua|Huevos|Aceite|Sal|Limón'
+```
+
+**NOTA: Hay que tener en cuenta que `join()` sólo funciona si todos sus elementos son cadenas de texto**
+
+### Iterar sobre una lista
+
+Al igual que hemos visto con las cadenas de texto, también podemos iterar sobre los elementos de una lista utilizando la sentencia `for`:
+
+```py
+>>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+
+>>> for product in shopping:
+...     print(product)
+...
+Agua
+Huevos
+Aceite
+Sal
+Limon
+```
+
+### Iterar Usando Enumeración
+
+`enumerate()`: Hay veces que no sólo nos interesa «visitar» cada uno de los elementos de una lista, sino que también queremos saber su **índice** dentro de la misma. Para ello Python nos ofrece la función `enumerate()`:
+
+```py
+>>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+
+>>> for i, product in enumerate(shopping):
+...     print(i, product)
+...
+0 Agua
+1 Huevos
+2 Aceite
+3 Sal
+4 Limón
+```
+
+Es posible utilizar el parámetro `start` con `enumerate()` para indicar el índice en el que queremos comenzar. Por defecto es `0`.
+
+```py
+for i, product in enumerate(shopping, start=2): # De esta forma imprime a partir del indice 2 inclusive
+```
+
+### Iterar sobre múltiples listas
+
+`zip()`: Python ofrece la posibilidad de iterar sobre múltiples listas en paralelo utilizando la función `zip()`. Se basa en ir «juntando» ambas listas elemento a elemento:
+
+```py
+>>> shopping = ['Agua', 'Aceite', 'Arroz']
+>>> details = ['mineral natural', 'de oliva virgen', 'basmati']
+
+>>> for product, detail in zip(shopping, details):
+...     print(product, detail)
+...
+Agua mineral natural
+Aceite de oliva virgen
+Arroz basmati
+```
+
+En el caso de que las listas no tengan la misma longitud, la función `zip()` realiza la combinación hasta que se agota la lista más corta.
+
+### Comparación de Listas
+
+La comparación entre listas se hace de forma analógica elemento a elemento, que tengan los mismos elementos en distinto orden afecta a la comparación.
+
+```py
+>>> a = [1, 2, 3]
+>>> b = [1, 2, 4]
+>>> a > b
+False
+```
+
+Hay que ver mas sobre el tema de mayor y menor que se me hace un poco confuso.
+
+### Cuidado con las copias
+
+Las listas son estructuras de datos mutables y esta característica nos obliga a tener cuidado cuando realizamos copias de listas, ya que la modificación de una de ellas puede afectar a la otra.
+
+Veamos un ejemplo sencillo:
+
+```py
+>>> original_list = [4, 3, 7, 1]
+>>> copy_list = original_list
+>>> original_list[0] = 15
+
+>>> original_list
+[15, 3, 7, 1]
+>>> copy_list
+[15, 3, 7, 1]
+```
+
+Una posible solución a este problema es hacer una «copia dura». Para ello Python proporciona la función `copy()`:
+
+```py
+>>> original_list = [4, 7, 3, 1]
+>>> copy_list = original_list.copy()
+>>> original_list[0] = 15
+>>> original_list
+[15, 7, 3, 1]
+>>> copy_list
+[4, 7, 3, 1]
+```
+
+**NOTA:** En el caso de que estemos trabajando con listas que contienen elementos mutables, debemos hacer uso de la función `deepcopy()` dentro del módulo copy de la librería estándar.
+
+```py
+>>>import copy # importamos la librería copy
+>>> a = [1, 2, 3, [4, 5, 6], 7, 8, 9]
+>>> b = copy.deepcopy(a)
+>>> b
+[1, 2, 3, [4, 5, 6], 7, 8, 9]
+>>> a[0] = 7
+>>> a[3][0] = 7 # Sin el deepcopy() la lista que guarda 'a' se vería modificada en las dos variables.
+>>> a
+[7, 2, 3, [7, 5, 6], 7, 8, 9]
+>>> b
+[1, 2, 3, [4, 5, 6], 7, 8, 9]
+```
+
+### Veracidad múltiple
+
+Si bien podemos usar sentencias condicionales para comprobar la veracidad de determinadas expresiones, Python nos ofrece dos funciones «built-in» con las que podemos evaluar si se cumplen **todas** las condiciones `all()` o si se cumple **alguna** condición `any()`. Estas funciones trabajan sobre iterables, y el caso más evidente es una lista.
+
+Supongamos un ejemplo en el que queremos comprobar si una determinada palabra cumple las siguientes condiciones:
+
+- Su longitud total es mayor a `4`.
+- Empieza por `'p'`.
+- Contiene al menos una `'y'`.
+
+Veamos la **versión con veracidad múltiple** usando `all()`, donde se comprueba que se cumplan todas las expresiones:
+
+```py
+>>> word = 'python'
+
+>>> enough_len = len(word) > 4              # True
+>>> right_beginning = word.startswith('p')  # True
+>>> min_ys = word.count('y') > 1            # True
+
+>>> is_cool_word = all([enough_len, right_beginning, min_ys])
+
+>>> if is_cool_word:
+...   print('Cool word!')
+... else:
+...   print('No thanks')
+...
+Cool word!
+```
+
+Veamos la **versión con veracidad múltiple** usando `any()`, donde se comprueba que se cumpla alguna expresión:
+
+```py
+>>> word = 'yeah'
+
+>>> enough_len = len(word) > 4              # False
+>>> right_beginning = word.startswith('p')  # False
+>>> min_ys = word.count('y')                # True
+
+>>> is_fine_word = any([enough_len, right_beginning, min_ys])
+
+>>> if is_fine_word:
+...   print('Fine word!')
+... else:
+...   print('No thanks')
+...
+Fine word!
+```
+
+Este enfoque puede ser interesante cuando se manejan muchas condiciones o bien cuando queremos separar las condiciones y agruparlas en una única lista.
+
+A tener en cuenta la peculiaridad de estas funciones cuando trabajan con la **lista vacía**:
+
+```py
+>>> all([])
+True
+>>> any([])
+False
+```
+
+### Listas Por Comprensión
+
+Las **listas por comprensión** establecen una técnica para crear listas de forma más compacta basándose en el concepto matemático de **conjuntos definidos por comprensión**:
+
+<div style="border: 1px solid; border-radius: 5px; width: 80%; padding: 8px">
+Decimos que un conjunto está definido por compresión , si sus elementos se describen a través de propiedades que tienen en común.<br>
+Un conjunto está definido por **extensión**, si se enumeran sus elementos.<br>
+
+Por ejemplo: `A = {x / x es un número obtenido al lanzar un dado corriente}` es un conjunto<br>
+definido por comprensión ya que sus elementos `“x”` se describen a través de una propiedad<br>
+**“es un número obtenido al lanzar un dado corriente”**.
+
+Esa expresión se lee: **“A es el conjunto formado por todos aquellos números que se obtengan al lanzar un dado”**.
+
+Date cuenta que la frase escrita entre las llaves `({...})` está en **singular** y, sin embargo, se lee en **plural**.
+
+Ese conjunto, expresado por extensión, es `A = {1,2,3,4,5,6}`.
+
+</div><br>
+
+Podríamos decir que su sintaxis sigue un modelo **VLC (Value-Loop-Condition)** tal y como se muestra en la siguiente figura:
+
+<p align="center"><img src="list-comprehensions.png" /></p>
+<h4 align="center">Estructura de Lista por Comprensión</h4>
+
+`-------------------------------------------------------------------`
+
+Las comprensiones de listas son una forma útil de crear rápidamente listas cuyo contenido obedece a una regla.
+
+Por ejemplo podemos hacer lo siguiente:
+
+```py
+# a list comprehension
+cubes = [i**3 for i in range(5)]
+
+print(cubes)
+
+$ [0, 3, 6, 9, 12]
+```
+
+Una comprensión de listas también puede tener una declaración `if` para imponer una condición a los valores de la lista:
+
+```py
+evens = [i**2 for i in range(10) if i**2 % 2 == 0]
+
+print(evens)
+
+$ [0, 4, 16, 36, 64]
+```
+
+Usando comprensión de listas en un pedido al usuario:
+
+```py
+lista_nums = [int(x) for x in input("Ingrese una lista de números separados por comas: ").split(",")]
+print("El mayor número de la lista es:", max(lista_nums))
+```
+
+No olvidar que en las entradas de usuario **el input retorna siempre un string** por lo cual en todas las condiciones debe formatearse al tipo correcto, como en este **if**.
+
+```py
+even_list = [int(i) for i in input("Enter numbers separated by comma: ").split(',') if (int(i) % 2 == 0)]
+```
+
+`-------------------------------------------------------------------`
+
+### Otros Métodos de las Listas
 
 Sintaxis: `<lista>.<método>(<parámetros>)`<br>
 Métodos importantes:
 
 - `.count(<elemento>)` Permite contar las veces que se repite el elemento indicado.
-- `.extend(<lista>)` Nos permite extender una lista agregándole los elementos de otra lista.
-- `.pop()` Elimina y retorna un elemento de la lista.
 - `.reverse()` Reversa el orden actual de la lista.
 - `.sort()` Ordena la lista en un orden especifico.
+
+[Documentación de listas](https://aprendepython.es/core/datastructures/lists/#)
 
 ## Tuplas (Tuples)
 
@@ -606,7 +1109,7 @@ letras[2]
 >>> 'C'
 ```
 
-Para encontrar un elemento se utiliza `in` al igual que en las listas.
+Para encontrar un elemento se utiliza `in` al igual que en las listas. También existe su negación `not in`.
 
 ```py
 tupla = (1, 2, "Pepe", 4, 5)
@@ -690,9 +1193,254 @@ del edades["Ana"]
 
 Comprobar la existencia de un elemento: `<clave> in <diccionario>`
 
-## Documentación
+[Documentación Diccionarios](https://aprendepython.es/core/datastructures/dicts/#)
 
-python.org -> documentation -> python Docs -> funciones Built-in: información sobre las funciones que ya vienen incorporadas.
+## Conjuntos (set)
+
+Un conjunto es una colección no ordenada de objetos únicos. Python provee este tipo de datos «por defecto» al igual que otras colecciones más convencionales como las listas, tuplas y diccionarios.
+
+Los conjuntos son ampliamente utilizados en lógica y matemática, y desde el lenguaje podemos sacar provecho de sus propiedades para crear código más eficiente y legible en menos tiempo.
+
+### Creación de un conjunto
+
+Para crear un conjunto especificamos sus elementos entre llaves:
+
+```py
+s = {1, 2, 3, 4}
+```
+
+Al igual que otras colecciones, sus miembros pueden ser de diversos tipos, **No obstante, un conjunto NO puede incluir objetos mutables como listas, diccionarios, e incluso otros conjuntos**. En el siguiente ejemplo puede verse una _tupla_, ya que es un objeto inmutable y hasheable.
+
+```py
+s = {True, 3.14, None, False, "Hola mundo", (1, 2)}
+```
+
+Python distingue este tipo operación de la creación de un diccionario ya que no incluye dos puntos. Sin embargo, no puede dirimir el siguiente caso:
+
+```py
+s = {}
+```
+
+Por defecto, la asignación anterior crea un **diccionario**. Para generar un conjunto vacío, directamente creamos una instancia de la clase `set`:
+
+```py
+s = set()
+```
+
+De la misma forma podemos obtener un conjunto a partir de cualquier objeto iterable:
+
+```py
+s1 = set([1, 2, 3, 4])
+s2 = set(range(10))
+```
+
+Un `set` puede ser convertido a una lista y viceversa. En este último caso, los elementos duplicados son unificados.
+
+```py
+>>> list({1, 2, 3, 4})
+[1, 2, 3, 4]
+>>> set([1, 2, 2, 3, 4, 4])
+[1, 2, 3, 4]
+```
+
+### Elementos
+
+Los conjuntos son objetos **mutables**. Vía los métodos `add()` y `discard()` podemos añadir y remover un elemento indicándolo como argumento.
+
+```py
+>>> s = {1, 2, 3, 4}
+>>> s.add(5)
+>>> s.discard(2)
+>>> s
+{1, 3, 4, 5}
+```
+
+Nótese que si el elemento pasado como argumento a `discard()` no está dentro del conjunto es simplemente ignorado. En cambio, el método `remove()` opera de forma similar pero en dicho caso lanza la excepción **KeyError**.
+
+Para determinar si un elemento pertenece a un conjunto, utilizamos la palabra reservada `in` (también tenemos la negativa `not in`).
+
+```py
+>>> 2 in {1, 2, 3}
+True
+>>> 4 in {1, 2, 3}
+False
+```
+
+La función `clear()` elimina todos los elementos.
+
+```py
+>>> s = {1, 2, 3, 4}
+>>> s.clear()
+>>> s
+set()
+```
+
+El método `pop()` retorna un elemento en forma aleatoria (no podría ser de otra manera ya que los elementos no están ordenados). Así, el siguiente bucle imprime y remueve uno por uno los miembros de un conjunto.
+
+```py
+while s:
+    s.pop()
+```
+
+`remove()` y `pop()` lanzan la excepción `KeyError` cuando un elemento no se encuentra en el conjunto o bien éste está vacío, respectivamente.
+
+### Teoría de conjuntos
+
+Vamos a partir de dos conjuntos `A={1,2}` y `B={2,3}` para ejemplificar las distintas operaciones que se pueden hacer entre ellos basadas en los **Diagramas de Venn** y la **Teoría de Conjuntos**:
+
+```py
+>>> A = {1, 2}
+>>> B = {2, 3}
+```
+
+<h4 align="center">Diagramas de Venn</h4>
+<p align="center"><img src="venn.png" /></p>
+
+#### Intersección
+
+`A∩B` – Elementos que están a la vez en `A` y en `B`:
+
+<p align="left"><img src="venn-intersection.png" /></p>
+
+```py
+>>> A & B
+{2}
+>>> A.intersection(B)
+{2}
+```
+
+#### Unión
+
+`A∪B` – Elementos que están tanto en `A` como en `B`:
+
+<p align="left"><img src="venn-union.png" /></p>
+
+```py
+>>> A | B
+{1, 2, 3}
+>>> A.union(B)
+{1, 2, 3}
+```
+
+#### Diferencia
+
+`A∖B` – Elementos que están en `A` y no están en `B`:
+
+<p align="left"><img src="venn-difference.png" /></p>
+
+```py
+>>> A - B
+{1}
+>>> A.difference(B)
+{1}
+```
+
+#### Diferencia simétrica
+
+`A△B` – Elementos que están en `A` o en `B` pero no en ambos conjuntos:
+
+<p align="left"><img src="venn-sym_diff.png" /></p>
+
+```py
+>>> A ^ B
+{1, 3}
+>>> A.symmetric_difference(B)
+{1, 3}
+```
+
+Podemos comprobar que la definición de la diferencia simétrica se cumple también en Python:
+
+```py
+>>> A ^ B == (A | B) - (A & B)
+True
+```
+
+#### Inclusión
+
+- Un conjunto `B` es un **subconjunto** de otro conjunto `A` si todos los elementos de `B` están incluidos en `A`.
+- Un conjunto `A` es un **superconjunto** de otro conjunto `B` si todos los elementos de `B` están incluidos en `A`.
+
+Veamos un ejemplo con los siguientes conjuntos:
+
+```py
+>>> A = {2, 4, 6, 8, 10}
+>>> B = {4, 6, 8}
+```
+
+<h4 align="center">Subconjuntos y Superconjuntos</h4>
+<p align="center"><img src="subset-superset.png" /></p>
+
+En Python podemos realizar comprobaciones de inclusión (subconjuntos y superconjuntos) utilizando operadores clásicos de comparación:
+
+`B⊂A`
+
+```py
+>>> B < A   # Subconjunto
+True
+```
+
+`B⊆A`
+
+```py
+>>> B <= A
+True
+```
+
+`A⊃B`
+
+```py
+>>> A > B   # Superconjunto
+True
+```
+
+`A⊇B`
+
+```py
+>>> B >= A
+True
+```
+
+El hecho de que algunos elementos sí pertenezcan a otro conjunto no hace que sea un subconjunto. En el siguiente ejemplo tanto `3` como `5` del conjunto `B` están en el conjunto `A`, pero al no estar el elemento `1` no se trata de un subconjunto:
+
+```py
+>>> A = {3, 5, 7, 9}
+>>> B = {1, 3, 5}
+>>> B < A
+False
+```
+
+#### Conjuntos por comprensión
+
+Los conjuntos, al igual que las `listas` y los `diccionarios`, también se pueden crear por comprensión.
+
+Veamos un ejemplo en el que construimos un conjunto por comprensión con aquellos números enteros múltiplos de `3` en el rango `[0,20]`:
+
+```py
+>>> m3 = {number for number in range(0, 20) if number % 3 == 0}
+>>> m3
+{0, 3, 6, 9, 12, 15, 18}
+```
+
+#### Conjuntos inmutables
+
+Python ofrece la posibilidad de crear **conjuntos inmutables** haciendo uso de la función frozenset() que recibe cualquier iterable como argumento.
+
+```py
+>>> notas = [1, 3, 3, 5, 4, 2, 2, 6, 7, 8, 8, 9, 10]
+>>> nivel_notas = frozenset(notas)
+>>> nivel_notas
+frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+```
+
+Los `frozenset` son a los `set` lo que las `tuplas` a las `listas`: una forma de **congelar** los valores para que no puedan ser modificados.
+Cualquier intento de modificar los valores dará como resultado un error.
+
+[Documentación sobre conjuntos](https://recursospython.com/guias-y-manuales/conjuntos-sets/)<br>
+[Documentación sobre conjuntos 2](https://aprendepython.es/core/datastructures/sets/)
+
+### Mas documentación sobre estructura de datos
+
+[Pyhon Estructura de Datos](https://docs.python.org/3/tutorial/datastructures.html)
 
 ## Ciclos
 
@@ -1088,6 +1836,10 @@ opcion = random.choice(["piedra", "papel", "tijera"])
 ## Recursos
 
 - [Paquetes (packages)](https://pypi.org/)
+
+```
+
+```
 
 ```
 

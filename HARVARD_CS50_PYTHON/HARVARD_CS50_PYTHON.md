@@ -186,9 +186,81 @@ Palabras clave de esta sección: `assert` `AssertionError` `pytest`
 
 ## Files I/O
 
+Escribir y leer un archivo
+
+```py
+import csv
+# Escribir archivo csv
+name = input("What's your name? ")
+home = input("What's your home? ")
+
+with open("students.csv", "a") as file:
+     writer = csv.DictWriter(file, fieldnames=["name","home"], lineterminator='\n')
+     writer.writerow({"name": name, "home": home})
+```
+
+```py
+import csv
+# Leer archivo csv
+students = []
+with open("students.csv") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        students.append(row)
+
+for student in sorted(students, key= lambda student: student["name"]):
+    print(f"{student['name']} is in {student['home']}")
+```
+
+Trabajar archivo de imagen I/O con librería Pillow
+
+```py
+# Programa para generar imagen en movimiento, se deben pasar las imágenes como argumentos al llamar al programa.
+# ej: py costumes.py imagen1.gif imagen2.gif
+import sys
+
+from PIL import Image
+
+images = []
+
+for arg in sys.argv[1:]:
+    image = Image.open(arg)
+    images.append(image)
+
+images[0].save(
+    "costumes.gif", save_all=True, append_images=[images[1]], duration=200, loop=0
+)
+```
+
+[Libreria Pillow](https://pillow.readthedocs.io)
+
+## Expresiones Regulares
+
+## Buscar mas información sobre lambda
+
+`lambda` es la definición minima de una función que puede usarse en una expresión.
+
+```py
+for student in sorted(students, key= lambda student: student["name"]):
+    print(f"{student['name']} is in {student['home']}")
+```
+
+## Notas y Tips:
+
+### Print() como loop:
+
+```py
+print("My text\n" * 3, end="") # Fin de linea para que no concatene y end="" para eliminar el salto de linea final.
+
+>>> My text
+>>> My text
+>>> My text
+```
+
 ## Resources
 
 - [youtube](https://www.youtube.com/watch?v=nLRL_NcnK-4)
+- [CS50 webpage](https://cs50.harvard.edu/python/2022/)
 - [Documentation](https://docs.python.org/)
 
 ### Ultimo visto: minuto 7:00:29 / 15:57:47
