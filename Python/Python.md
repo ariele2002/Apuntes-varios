@@ -139,7 +139,8 @@ string2.isalnum() Retorna False
 
 Todos los métodos que comienzan en **is** retornan un booleano y son muy utilizados en los condicionales lógicos.
 
-- `.lower()`: Retorna una **copia de la cadena** con todos sus caracteres en minúsculas.
+- `.lower()`: Retorna una **copia de la cadena** con todos sus caracteres en minúsculas (excepto caracteres especiales).
+- `.casefold()`: Funciona similar a `.lower()` pero de forma mas agresiva incluyendo las minúsculas que correspondan a los caracteres especiales.
 - `.upper()`: Retorna una **copia de la cadena** con todos sus caracteres en mayúsculas.
 
 ## Ejemplo búsqueda de vocales:
@@ -168,6 +169,163 @@ type(3.2)    Retorna <class 'float'>
 type(True)   Retorna <class 'bool'>
 type("Pepe") Retorna <class 'str'> (string)
 ```
+
+## String Avanzados
+
+### Convertir String a Listas y Viceversa
+
+#### Dividir una cadena de texto en lista
+
+`split()`: Una tarea muy común al trabajar con cadenas de texto es dividirlas por algún tipo de separador. En este sentido, Python nos ofrece la función `split()`, que debemos usar anteponiendo el «string» que queramos dividir:
+
+```py
+>>> proverb = 'No hay mal que por bien no venga'
+>>> proverb.split()
+['No', 'hay', 'mal', 'que', 'por', 'bien', 'no', 'venga']
+
+>>> tools = 'martillo,sierra,destornillador'
+>>> tools.split(',')
+['martillo', 'sierra', 'destornillador']
+```
+
+La función `split()` devuelve una lista donde cada elemento es una parte de la cadena de texto original
+
+**Nota:** Si no se especifica un separador, `split()` usa por defecto cualquier secuencia de espacios en blanco, tabuladores y saltos de línea.
+
+#### Particionado de cadenas de texto (retorna una tupla)
+
+`partition`: Existe una forma algo más «elaborada» de dividir una cadena a través del particionado. Para ello podemos valernos de la función `partition()` que proporciona Python.
+
+Esta función toma un argumento como separador, y divide la cadena de texto en 3 partes: lo que queda a la izquierda del separador, el separador en sí mismo y lo que queda a la derecha del separador:
+
+```py
+>>> text = "3 + 4"
+>>> text.partition('+')
+('3', '+', '4') # Retorna una tupla
+```
+
+**Nota:** En este caso el resultado de la función `partition()` es una tupla.
+
+Esa tupla resultante puede pasarse a una lista:
+
+```py
+>>> list(text.partition('+'))
+['3', '+', '4']
+```
+
+#### Unir una lista en cadena de texto (string)
+
+`join()`: Dada una lista, podemos convertirla a una cadena de texto, uniendo todos sus elementos mediante algún separador. Para ello hacemos uso de la función `join()` con la siguiente estructura `<separador>.join(<lista>)`:
+
+```py
+>>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
+
+>>> ','.join(shopping)
+'Agua,Huevos,Aceite,Sal,Limón'
+
+>>> ' '.join(shopping)
+'Agua Huevos Aceite Sal Limón'
+
+>>> '|'.join(shopping)
+'Agua|Huevos|Aceite|Sal|Limón'
+```
+
+**NOTA: Hay que tener en cuenta que `join()` sólo funciona si todos sus elementos son cadenas de texto**
+
+### Formateo de Strings
+
+#### Formateo con el operador %
+
+El formateo de string se realiza por medio del símbolo `%` e indicando el tipo de dato: `"%<tipo dato> %<tipo dato>" % (<variable1, variable2, <variable...n)`
+
+```py
+a = "Hola"
+b = "Pepe"
+c = 10
+d = 15.23
+
+print("%s %s" % (a, b)) # s = string
+>>> Hola Pepe
+
+print("%s %i" % (b, c)) # i = integer
+>>> Pepe 10
+
+print("%s %f" % (b, d)) # f = float
+>>> Pepe 15.230000
+```
+
+**Nota**: En los float para indicar el numero de decimales a mostrar se le coloca delante de la `f` un punto `.` y la cantidad de decimales. Ej: `%.2f`.
+
+#### Formateo de strings con el método format
+
+En el formateo usando format se agregan llaves por cada variable a incluir ya que las toma en orden de las mismas.
+
+```py
+saludo = "Hola"
+nombre = "Pepe"
+edad = 23
+
+"{} {} tienes {} años.".format(saludo, nombre, edad)
+>>> 'Hola Pepe tienes 23 años.'
+```
+
+#### Texto pre-formateado
+
+Para tener un texto pre-formateado que respete espacios, tabulaciones y saltos de linea, se debe encerrar en triple comillas `"""` al igual que en los comentarios multi-lineas.<br>
+Esto funciona como el tag `<pre>` en HTML.
+
+```PY
+texto = """Aquí me pongo a "cantar"
+Al compás de la vigüela
+Que al hombre que lo desvela
+Una pena estrordinaria,
+Como la ave solitaria
+Con el 'cantar' se consuela."""
+
+texto2 = """Aquí "comillas dobles" y aquí 'comillas simples'."""
+
+print(texto)
+>>>
+Aquí me pongo a "cantar"
+Al compás de la vigüela
+Que al hombre que lo desvela
+Una pena estrordinaria,
+Como la ave solitaria
+Con el 'cantar' se consuela.
+
+print(texto2)
+>>> Aquí "comillas dobles" y aquí 'comillas simples'.
+```
+
+Como puedes ver tanto en texto multi-linea como en una sola al colocarlo entre `"""` se pueden utilizar las comillas dobles y simples sin problema.
+
+### Multiplicar strings
+
+Es tan simple como uno operación matemática.
+
+```py
+text = "Hola"
+print(text*3)
+>>> HolaHolaHola
+
+# Agregando espacios
+print((text + " ") * 3)
+>>> Hola Hola Hola
+```
+
+### Comprobar coincidencias dentro de un string
+
+Se utiliza la sentencia `in` y la negación `not in` para hacer las comprobaciones y retorna un booleano.
+
+```py
+print("lo" in "Carlo Magno")
+>>> True
+
+print("lo" not in "Carlo Magno")
+>>> False
+```
+
+### Generar un Diccionario a partir de un string
 
 ## Recibiendo Datos del Usuario (input)
 
@@ -282,18 +440,21 @@ El orden de prioridad cuando tenemos varios operadores lógicos en una expresió
 
 Son utilizados para **asignar valores** a las variables del programa.
 
-|     |       |
-| :-: | :---: |
-|  =  |  +=   |
-| -=  | `*=`  |
-| /=  | `**=` |
-| //= |  %=   |
+|     Asigna      |   Incrementa   |
+| :-------------: | :------------: |
+|        =        |       +=       |
+| **Decrementa**  | **Multiplica** |
+|       -=        |      `*=`      |
+|   **Divide**    |  **Potencia**  |
+|       /=        |     `**=`      |
+| **Div. Entera** | **Resto Div.** |
+|       //=       |       %=       |
 
 ```py
 Ej: variable = 10
-    variable += 5 : 15
-    variable /= 3 :  5.0
-    variable *= 3 : 15.0
+    variable += 5 >>> 15
+    variable /= 3 >>>  5.0
+    variable *= 3 >>> 15.0
 ```
 
 #### Relacionales
@@ -383,14 +544,31 @@ Sintaxis:
 ```py
 temp = 15
 if temp <=0:
-    print("Frío que pelaaa!)
+    print("Frío que pelaaa!")
 elif temp < 25:
-    print("Que frío lo pario!)
+    print("Que frío lo pario!")
 else:
-    print("Que calor de locos!)
+    print("Que calor de locos!")
 ```
 
 **`Advertencia:`** Pueden haber varias sentencias **elif** en un condicional pero **solo una** sentencia **else**. La clausula else debe ser única en un condicional y que va a ser un respaldo cuando todas las otras condiciones sean falsas.
+
+### Match
+
+```py
+def http_error(status):
+    match status:
+        case 400:
+            return "Bad request"
+        case 404:
+            return "Not found"
+        case 418:
+            return "I'm a teapot"
+        case _:
+            return "Something's wrong with the internet"
+```
+
+[Documentación de match](https://docs.python.org/es/dev/tutorial/controlflow.html#match-statements)
 
 ## Comentarios (comentar código)
 
@@ -688,7 +866,7 @@ $ ['pera', 'manzana']
 
   La diferencia entre ambos métodos tiene que ver con cuestiones internas de gestión de memoria y de rendimiento, mientras que `clear()` mantiene la misma posición de memoria, `= []` crea una nueva posición de memoria. La memoria que queda «en el limbo» después de asignar un nuevo valor a la lista es detectada por el recolector de basura de Python, quien se encarga de liberar aquellos datos que no están referenciados por ninguna variable.
 
-  A efectos de velocidad de ejecución, `clear()` «parece» ir más rápido que shopping `= []`.
+  A efectos de velocidad de ejecución, `clear()` «parece» ir más rápido que `= []`.
 
 - `in` Verifica si un elemento esta en la lista `<elemento> in <lista>`
 
@@ -770,66 +948,6 @@ Python nos ofrece dos aproximaciones para combinar listas:
   ```
   El motivo es que `extend()` «recorre» (o itera) sobre cada uno de los elementos del objeto en cuestión. En el caso anterior, al ser una cadena de texto, está formada por caracteres. De ahí el resultado que obtenemos.
 
-### Convertir String a Listas y Viceversa
-
-#### Dividir una cadena de texto en lista
-
-`split()`: Una tarea muy común al trabajar con cadenas de texto es dividirlas por algún tipo de separador. En este sentido, Python nos ofrece la función `split()`, que debemos usar anteponiendo el «string» que queramos dividir:
-
-```py
->>> proverb = 'No hay mal que por bien no venga'
->>> proverb.split()
-['No', 'hay', 'mal', 'que', 'por', 'bien', 'no', 'venga']
-
->>> tools = 'martillo,sierra,destornillador'
->>> tools.split(',')
-['martillo', 'sierra', 'destornillador']
-```
-
-La función `split()` devuelve una lista donde cada elemento es una parte de la cadena de texto original
-
-**Nota:** Si no se especifica un separador, `split()` usa por defecto cualquier secuencia de espacios en blanco, tabuladores y saltos de línea.
-
-#### Particionado de cadenas de texto (retorna una tupla)
-
-`partition`: Existe una forma algo más «elaborada» de dividir una cadena a través del particionado. Para ello podemos valernos de la función `partition()` que proporciona Python.
-
-Esta función toma un argumento como separador, y divide la cadena de texto en 3 partes: lo que queda a la izquierda del separador, el separador en sí mismo y lo que queda a la derecha del separador:
-
-```py
->>> text = "3 + 4"
->>> text.partition('+')
-('3', '+', '4') # Retorna una tupla
-```
-
-**Nota:** En este caso el resultado de la función `partition()` es una tupla.
-
-Esa tupla resultante puede pasarse a una lista:
-
-```py
->>> list(text.partition('+'))
-['3', '+', '4']
-```
-
-#### Unir una lista en cadena de texto (string)
-
-`join()`: Dada una lista, podemos convertirla a una cadena de texto, uniendo todos sus elementos mediante algún separador. Para ello hacemos uso de la función `join()` con la siguiente estructura `<separador>.join(<lista>)`:
-
-```py
->>> shopping = ['Agua', 'Huevos', 'Aceite', 'Sal', 'Limón']
-
->>> ','.join(shopping)
-'Agua,Huevos,Aceite,Sal,Limón'
-
->>> ' '.join(shopping)
-'Agua Huevos Aceite Sal Limón'
-
->>> '|'.join(shopping)
-'Agua|Huevos|Aceite|Sal|Limón'
-```
-
-**NOTA: Hay que tener en cuenta que `join()` sólo funciona si todos sus elementos son cadenas de texto**
-
 ### Iterar sobre una lista
 
 Al igual que hemos visto con las cadenas de texto, también podemos iterar sobre los elementos de una lista utilizando la sentencia `for`:
@@ -844,7 +962,7 @@ Agua
 Huevos
 Aceite
 Sal
-Limon
+Limón
 ```
 
 ### Iterar Usando Enumeración
@@ -1062,13 +1180,11 @@ lista_nums = [int(x) for x in input("Ingrese una lista de números separados por
 print("El mayor número de la lista es:", max(lista_nums))
 ```
 
-No olvidar que en las entradas de usuario **el input retorna siempre un string** por lo cual en todas las condiciones debe formatearse al tipo correcto, como en este **if**.
+No olvidar que en las entradas de usuario **el input retorna siempre un string** por lo cual en todas las condiciones debe formatearse al tipo correcto, como se ve en el **if** al final de la expresión.
 
 ```py
 even_list = [int(i) for i in input("Enter numbers separated by comma: ").split(',') if (int(i) % 2 == 0)]
 ```
-
-`-------------------------------------------------------------------`
 
 ### Otros Métodos de las Listas
 
@@ -1468,7 +1584,7 @@ Características:
 - Se actualiza automáticamente antes de cada iteración. Se actualiza con los valores devueltos por la función range.
 - Debe tener un nombre descriptivo.
 
-`range`: devuelve una secuencia de entero que nosotros especificamos.Cuando especificamos un solo valor lo toma como el **final** de la secuencia y por defecto el numero inicial va a ser **cero**.<br>
+`range`: devuelve una secuencia de entero que nosotros especificamos. Cuando especificamos un solo valor lo toma como el **final** de la secuencia y por defecto el numero inicial va a ser **cero**.<br>
 `paso`: Opcional, se agrega esta opción cuando se desea que incremente en mas de 1 a ..n.
 
 ```py
@@ -1553,6 +1669,29 @@ while True:
         break
 ```
 
+### Cortar prematuramente un bucle o hacer saltos en los bucles
+
+**continue:** Esta sentencia se utiliza con un condicional para hacer saltos dentro del bucle según se cumpla dicha condición, la sentencias que estén debajo del `continue` no se ejecutaran.<br> **Nota:** `continue` y `pass` funcionan de formas diferente, este ultimo es para poder dejar código vacío sin que el compilador de error y _todas las sentencias_ que estén debajo de `pass` serán ejecutadas.
+
+```py
+# Solo imprime números pares.
+for i in range(1,5):
+    if i %2 != 0:
+        continue
+    print(i)
+```
+
+**break:** Esta sentencia se utiliza para cortar (romper) la iteración del bucle y se controla con un condicional.
+
+```py
+# Corta la iteración al encontrar el primer número impar.
+for i in range(2,5):
+    if i %2 != 0:
+        print(f"El primer número impar es: {i}")
+        break
+    print("No se encontraron números impares")
+```
+
 ## Funciones
 
 Las Funciones son un bloque de código reutilizable que realiza una sola tarea específica.
@@ -1618,7 +1757,7 @@ Es el alcance que tendrá una variable en el programa. Dónde se podrá usar. De
 - `Global` Son las variables definidas en el programa principal.
 - `Local` Son las variables definidas en las funciones.
 
-## Recursion
+### Recursion
 
 Es definir algo en términos de sí mismo.<br>
 **Función Recursiva**: Es una función que se llama a sí misma.<br>
@@ -1636,6 +1775,22 @@ def fibonacci(n):
 ```
 
 Esto retorna el número que se encuentra en la secuencia fibonacci que se le envía como argumento.
+
+### Lambda Funciones Anónimas
+
+Las funciones lambda, llamadas anónimas por que no tienen nombre son funciones que admiten solo una expresión y pueden llamarse en la misma linea, no requieren de la sentencia `return` en la expresión.<br>
+Sintaxis `lambda <parámetros> : <expresión>`
+
+```py
+# Llamada y ejecución en la misma linea, observar el uso de los paréntesis.
+(lambda num1, num2 : print(num1 + num2)) (1, 2)
+>>> 3
+
+# Guardándola en una variable
+suma = lambda num1, num2 : num1 + num2
+print(suma(1, 2))
+>>> 3
+```
 
 ## Archivos
 
@@ -1719,7 +1874,35 @@ from math import pow
 print(pow(9, 2))
 ```
 
-### Errores y Excepciones
+## Manejo de Rutas (Directorios)
+
+Para la creación de rutas hacia directorios y acceso a los archivos, Python cuenta con un modulo `os` que nos permite interactuar con el sistema operativo.<br>
+Para el caso de las rutas usamos el método `.path` para establecerlas.
+
+### Ruta dinámica
+
+Las rutas dinámicas se usan para que el proyecto tenga portabilidad y capture del directorio principal donde se encuentre el proyecto en ese momento.<br>
+Para este fin utilizamos el método `.dirname()` de `.path` y como argumento `__file__`.
+
+```py
+ruta = os.path.dirname(__file__)
+print(ruta)
+>>> C:\Python\pruebas
+```
+
+### Rutas de subdirectorios del proyecto
+
+Para establecer la ruta a los subdirectorios del proyecto, solo tenemos que usar `path` haciendo un `join(<directorio_dinamico>,"directorio_a_incluir")`
+
+```py
+# Directorio principal (dinámico)
+directorio_principal = os.path.dirname(__file__)
+# Subdirectorios
+directorio_imagenes = os.path.join(directorio_principal, "imagenes")
+directorio_paisajes = os.path.join(directorio_imagenes, "paisajes") # Sub directorio en imágenes.
+```
+
+## Errores y Excepciones
 
 **Error en la sintaxis del programa**: Ocurre cuando no se siguen las reglas formales para escribir código en Python.<br>
 **Excepciones**: Es un error detectado durante la ejecución de un programa.<br>
@@ -1829,6 +2012,67 @@ opcion = random.choice(["piedra", "papel", "tijera"])
 
 `Dos renglones en blanco`: arriba y debajo de las **funciones** y cualquier otro elemento, y lo mismo para la **llamada a la función** es lo que dicta la normas de estilo en Python.
 
+## Programación Orientada a Objetos (POO o OOP en ingles)
+
+... documentación en proceso...
+
+```py
+# Ejemplo de una clase
+class Automotor():
+    # Atributos de clase
+    pais_de_origen = "Alemania"
+
+    # Constructor o inicializador
+    def __init__(self, color, longitud_metros, ruedas):
+        # Variables de instancia
+        self.color = color
+        self.longitud_metros = longitud_metros
+        self.ruedas = ruedas
+
+    # Métodos
+    def encender_motor(self):
+        print("El motor esta en marcha")
+
+    def apagar_motor(self):
+        print("El motor esta apagado")
+
+    # Los atributos tanto de instancia como de clase, se referencian con self.
+    def mostrar_info(self):
+        print(f"Es de color {self.color} tiene un largo de {self.longitud_metros}m y tiene {self.ruedas}")
+        print(f"Su país de origen es: {self.pais_de_origen}")
+
+# Objetos instanciados de la clase Automotor.
+vehiculo1 = Automotor("rojo", 4, 4)
+vehiculo2 = Automotor("negro", 6.5, 6)
+
+# Mostrando el valor de un atributo de instancia.
+print(vehiculo1.color)
+print(vehiculo2.color)
+
+# Ejecutando un método de la clase.
+vehiculo2.encender_motor()
+
+# Mostrando el valor de un atributo de clase.
+print(vehiculo1.pais_de_origen)
+
+# Método con referencia a variables
+vehiculo1.mostrar_info()
+vehiculo2.mostrar_info()
+```
+
+**NOTA**: `self` hace referencia a la posición de memoria del objeto instanciado.
+
+## Clases vacías sentencia "pass"
+
+Si creamos una clase vacía por digamos, motivos de diseño que luego iremos corrigiendo, esto nos dará un _error de indentación_; al igual que si lo hacemos con una función, un if, for etc... para salvar esto en todos los casos o se comenta el código o se utiliza la sentencia "pass".
+
+```py
+class Automotor():
+    pass
+```
+
+En el caso de las clases hasta puede realizarse una instancia de la clase sin que esta de error.
+
 ## Documentación
 
 - [docs.python.or](https://docs.python.org/)
@@ -1836,11 +2080,3 @@ opcion = random.choice(["piedra", "papel", "tijera"])
 ## Recursos
 
 - [Paquetes (packages)](https://pypi.org/)
-
-```
-
-```
-
-```
-
-```
