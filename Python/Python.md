@@ -325,8 +325,6 @@ print("lo" not in "Carlo Magno")
 >>> False
 ```
 
-### Generar un Diccionario a partir de un string
-
 ## Recibiendo Datos del Usuario (input)
 
 Para solicitar datos al usuario se utiliza la función `input()`<br>
