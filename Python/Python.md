@@ -1755,6 +1755,32 @@ Es el alcance que tendrá una variable en el programa. Dónde se podrá usar. De
 - `Global` Son las variables definidas en el programa principal.
 - `Local` Son las variables definidas en las funciones.
 
+#### Scope dentro de bloques condicionales y bucles
+
+En Python se pueden acceder a las variables dentro de sus bloques, cosa que en otros lenguajes no, esto ocasiona **malas practicas** al crear variables dentro de los mismos que sean utilizadas fuera de sus bloques, ej:
+
+```py
+valor = 2
+
+if valor == 1:
+    resultado = 10 + 10
+    print(resultado)
+else:
+    print(resultado) # En el caso que se cumpla dará un error de variable no definida.
+
+print(resultado) # Si el valor es 1 imprimirá resultado, en el caso que no lo sea dará un error de variable no definida.
+```
+
+Esto mismo que vemos en el ejemplo también se cumple en los bucles. Ej:
+
+```py
+for x in range(5):
+    valor = f"El valor del bucle es {x}"
+
+print(x)
+print(valor)
+```
+
 ### Recursion
 
 Es definir algo en términos de sí mismo.<br>
@@ -1871,6 +1897,150 @@ print(matematicas.pi)
 from math import pow
 print(pow(9, 2))
 ```
+
+**Importar todo el módulo**: `from <modulo> import *`<br>
+Esto es una mala practica ya que importa el modulo completo, como ventaja no se debe anteponer el nombre del módulo a un método del mismo (`math.pow(9,2)`) pero como desventaja, estarías importando todo un modulo cuando solo necesitas algunas funciones, o generando una superposición de variables y métodos del modulo con tu programa, sobre escribiendo estos si se diera el caso.<br>
+Otro problema es identificar que método pertenece al módulo o a tu programa y mas cuando se trabaja en equipo y se desconoce en su totalidad el módulo.
+
+```py
+from math import *
+
+def pow(a, b):
+    return a ** b
+
+resultado = pow(a,b)
+
+print(pow(9,2)) # Aca estaría usando nuestra función pow() no la del módulo.
+print(pi)
+```
+
+Como se muestra en el ejemplo, estaríamos sobrescribiendo la función pow() del módulo.
+
+## Programación Modular
+
+La idea de la programación modular es crear programas con poca o ninguna dependencia entre sus módulos.<br>
+En otras palabras la programación modular es el proceso de dividir una tarea de programación grande y difícil de manejar en sub-tareas o módulos separados más pequeños y manejables.
+
+### Importación de Módulos Propios
+
+Cuando hacemos programación modular hay que tener en cuenta:
+
+- Una estructura clara y organizada de directorios.
+- Diferenciar y no tratar las funciones como módulos.
+- No es necesario declarar las rutas a los módulos, las rutas a subdirectorios se definen con un punto `.` Ej:
+  ```py
+  import operaciones.suma # directorio operaciones modulo suma
+  print(operaciones.suma.suma(3,2))
+  ```
+- Que el directorio del módulo contenga el archivo `__init__.py` (puede estar vacío) para que Python lo tome como módulo.
+
+### Ejemplo de distintos tipos de importación
+
+Para los ejemplos usaremos esta estructura:
+
+```
+calculadora/
+├── calculadora.py
+├── operaciones/
+│   ├── __init__.py
+│   ├── suma.py
+│   ├── resta.py
+│   ├── multiplicacion.py
+│   ├── division.py
+```
+
+Y supondremos que cada que cada archivo tiene una función relacionada:<br>
+`suma.py`
+
+```py
+def suma(a, b):
+    return a + b
+```
+
+### Importación Absoluta
+
+```py
+# calculadora.py
+# Importando funciones específicas
+from operaciones.suma import suma
+from operaciones.resta import resta
+
+# Usando las funciones
+print(suma(3, 5))  # Salida: 8
+print(resta(10, 4))  # Salida: 6
+```
+
+### Importación de Módulo Completo
+
+```py
+# claculadora.py
+# Importando módulos completos
+import operaciones.suma
+import operaciones.resta
+
+# Llamando funciones desde el módulo
+print(operaciones.suma.suma(3, 5))  # Salida: 8
+print(operaciones.resta.resta(10, 4))  # Salida: 6
+```
+
+### Importación con Alias
+
+```py
+# calculadora.py
+# Importando módulos con alias
+import operaciones.suma as op_suma
+import operaciones.resta as op_resta
+
+# Llamando funciones usando los alias
+print(op_suma.suma(3, 5))  # Salida: 8
+print(op_resta.resta(10, 4))  # Salida: 6
+```
+
+### Importación a través de `__init__`.py
+
+Puedes usar el archivo `__init__.py` para organizar las importaciones y simplificar el uso.
+
+En operaciones/`__init__.py`:
+
+```py
+from .suma import suma
+from .resta import resta
+from .multiplicacion import multiplicacion
+from .division import division
+```
+
+En `calculadora.py`:
+
+```py
+# Importando directamente desde el paquete operaciones
+from operaciones import suma, resta, multiplicacion, division
+
+# Usando las funciones
+print(suma(3, 5))  # Salida: 8
+print(resta(10, 4))  # Salida: 6
+print(multiplicacion(6, 7))  # Salida: 42
+print(division(10, 2))  # Salida: 5.0
+```
+
+Podemos hacer también:
+En `calculadora.py`:
+
+```py
+# Importando directamente desde el paquete operaciones
+import operaciones as op
+
+# Usando las funciones
+print(op.suma(3, 5))  # Salida: 8
+print(op.resta(10, 4))  # Salida: 6
+print(op.multiplicacion(6, 7))  # Salida: 42
+print(op.division(10, 2))  # Salida: 5.0
+```
+
+**Recomendaciones:**
+
+- Usa importaciones absolutas para mayor claridad.
+- Configura `__init__.py` si quieres simplificar la organización de tus módulos.
+- Evita usar `from <modulo> import *` para prevenir conflictos de nombres.
 
 ## Manejo de Rutas (Directorios)
 
