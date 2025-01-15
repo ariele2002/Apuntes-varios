@@ -41,7 +41,7 @@ Son secuencias de caracteres encerrados entre comillas y usados para representar
 #### Ejemplo:
 
 ```py
-Nombre = "Pepe" o Nombre = 'Pepe'
+nombre = "Pepe" o nombre = 'Pepe'
 ```
 
 Para determinar el tamaño o longitud de una cadena (cantidad de caracteres que posee) se utiliza la función **len()**.
